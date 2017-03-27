@@ -1,0 +1,34 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+<div class="row" >
+<div class="col-sm-2"></div>
+  <div class="col-sm-4">
+
+    {% if isnew == 0 %}
+     <a href="{% url 'inventory_detail_guests' pk=est_pk %}" class="glyphicon glyphicon-chevron-left">inventory...</a>
+     <lable  for="visit"><h2>Edit Visit:</h2></lable>
+    {% else %}
+      <lable  for="visit"><h2>New Visit</h2></lable>
+    {% endif %}
+
+
+  <lable  for="flag"><h2>Flag</h2></lable>
+  <div class="col-sm-4">
+      <form method="POST" class="form-group" class="form-horizontal" class="form-control" class="post-form">{% csrf_token %}
+
+{% for f in form %}
+<div class={{f.id_for_label}}>
+    {{ f.errors }}
+    {{ f.label_tag }}
+    {{ f }}
+ </div>
+{% endfor %}
+<button type="submit" class="save btn btn-default">Save</button>
+</form>
+</div>
+</div>
+<div class="col-sm-4"></div>
+
+{% endblock %}

@@ -1,0 +1,116 @@
+{% load staticfiles %}
+<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'bower_components/jquery/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'django_ajax/js/jquery.ajax-plugin.min.js' %}"></script>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="{% static 'bootstrap/css/bootstrap.css' %}" rel="stylesheet" media="screen">
+    <link rel="stylesheet"  media="screen" href="{% static 'css/base.css' %}">
+
+
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="//cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/moment.js/2.17.1/moment.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/js/bootstrap-datetimepicker.min.js"></script>
+
+
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="//cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/moment.js/2.17.1/moment.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/js/bootstrap-datetimepicker.min.js"></script>
+
+
+
+<title></title>
+
+
+</head>
+
+    <body>
+
+      <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <img  src="/static/img/icon.jpg" class="img-rounded" alt="rentWare" width="64" height="66">
+          </div>
+          <ul class="nav navbar-nav">
+            <li><a href="/"><b></b></a></li>
+            <li><a href="/about">About</a></li>
+
+            <li class="dropdown">
+              <a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-home"></span>Documents <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/privacy">Privacy Policy</a></li>
+                <li><a href="/offenses">Criminal Offenses</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="/offenses">Terms and Conditions</a></li>
+  	         {% endif %}
+              </ul>
+            </li>
+
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+
+            {% if user.is_authenticated %}
+
+            <li class="dropdown">
+              <a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-home"></span>Manage inventorys <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/inventorys">View your inventorys</a></li>
+                <li><a href="/inventory_new">Create new inventory</a></li>
+<!--                <li class="divider"></li>
+                <li class="dropdown-header">Manage flagged</li>
+                <li><a href="{% url 'flagsearch_list' pk=user.pk %}">Check flagged </a></li>
+-->
+              </ul>
+            </li>
+
+
+          	<li><a href="{% url 'account_email' %}"><span class="glyphicon glyphicon-user"></span> Welcome {{user.email}} </a></li>
+          	<li><a href="{% url 'account_logout' %}"><span class="glyphicon glyphicon-user">SignOut</a></li>
+          	{% else %}
+          	<li><a href="{% url 'account_login' %}"><span class="glyphicon glyphicon-user">SignIn</a></li>
+          	<li><a href="{% url 'account_signup' %}"><span class="glyphicon glyphicon-user">SignUp</a></li>
+          	{% endif %}
+          </ul>
+        </div>
+      </nav>
+
+      <div class="row">
+
+          <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading"></div>
+            <div class="panel-body">
+              <p>
+              {% block header %}
+              {% endblock %}
+             </p>
+              <p>
+                {% block content %}
+
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+                {% endblock %}
+              </p>
+            </div>
+      </div>
+
+      <script src="{% static 'bootstrap/js/jquery.js' %}"></script>
+      <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+  </body>
+</html>

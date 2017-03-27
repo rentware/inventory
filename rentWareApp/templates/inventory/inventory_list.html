@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+    <div class="row" >
+        <div class="col-sm-1">
+        </div>
+        <div class="col-sm-10" class="media-left media-middle">
+          <h3>Your inventorys</h3>
+          {% for inventory in inventorys %}
+              <table class="table-condensed" border="0">
+                    <td style="width:50%">
+                  <a href="{% url 'inventory_detail_guests' pk=inventory.pk %}"
+                    class="btn btn-primary btn-lg" role="button">
+                    {{ inventory.show_name }} - {{inventory.inventorytype.name}}
+                  </a>
+                </td>
+                <td style="width:5%"><a href="{% url 'inventory_edit' pk=inventory.pk %}" class="btn btn-success btn-xs" role="button">edit</a></td>
+                </tr>
+                </table>
+                {% empty %}
+                <li>Sorry, no inventorys in this list.</li>
+          {% endfor %}
+
+              <h3>Other accessible inventorys</h3>
+              {% for inventory in useraccess %}
+                  <table class="table-condensed" border="0">
+                        <td style="width:50%">
+                      <a href="{% url 'inventory_detail_guests' pk=inventory.inventory.pk %}"
+                        class="btn btn-primary btn-lg" role="button">
+                        {{ inventory.inventory.show_name }} - {{inventory.inventory.inventorytype.name}}
+                      </a>
+                    </td>
+                    <td style="width:5%"><a href="{% url 'inventory_edit' pk=inventory.inventory.pk %}" class="btn btn-success btn-xs" role="button">edit</a></td>
+                    </tr>
+                    </table>
+                    {% empty %}
+                    <li>Sorry, no inventorys in this list.</li>
+                    
+              {% endfor %}
+
+
+  </div>
+  <div class="col-sm-1"></div>
+
+{% endblock %}

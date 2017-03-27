@@ -1,0 +1,31 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+      <div class="row" >
+        <div class="col-sm-1"></div>
+
+        <div class="col-sm-10" class="media-left media-middle">
+
+          <p>
+            <a href="{% url 'guest_upload_file' est_pk=est_pk guest_pk=guest_pk %}" class="btn btn-primary">Upload Image</a>
+          </p>
+
+      {% for upload in guest_upload %}
+          <table class="table-striped" border="0">
+            <td style="width:40%">
+              {{upload.title}}
+              <div class="row">
+                <div class="col-sm-6 col-md-4">
+                  <div class="thumbnail">
+                    <a href="/media/{{ upload.docfile.large }}"><img alt="" src="/media/{{ upload.docfile.thumbnail }}"/></a>
+                  </div>
+                </div>
+              </div>
+            </td>
+            </tr>
+            </table>
+      {% endfor %}
+  </div>
+  </div>
+  <div class="col-sm-1"></div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+      <div class="row" >
+        <div class="col-sm-1"></div>
+
+        <div class="col-sm-10" class="media-left media-middle">
+
+      {% for user in admin_users %}
+          <table class="table-striped" border="0">
+            <td style="width:40%">
+              {{user}}
+              <div class="row">
+                <div class="col-sm-6 col-md-4">
+                  <div class="thumbnail">
+                    <a href="#"><img alt="" src="#"/></a>
+                  </div>
+                </div>
+              </div>
+            </td>
+            </tr>
+            </table>
+      {% endfor %}
+  </div>
+  </div>
+  <div class="col-sm-1"></div>
+{% endblock %}

@@ -1,0 +1,196 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+<div class="row" >
+
+<div class="col-sm-2"></div>
+
+  <div class="col-sm-4">
+
+    {% if isnew == 0 %}
+     <a href="{% url 'inventory_detail_guests' pk=est_pk %}" class="glyphicon glyphicon-chevron-left">inventory...</a>
+     <lable  for="guest"><h1>Edit Guest: {{guest.surname}}</h1></lable>
+     <td style="width:1%"><a href="{% url 'list_guest_flag' guest_pk=guest.pk est_pk=est_pk  %}"<button type="button" class="btn btn-danger btn-xs">offense flag management</button></a></td>
+    {% else %}
+      <lable  for="guest"><h1>New Guest</h1></lable>
+    {% endif %}
+
+    <form class="form-horizontal">
+
+    <div class="row">
+      <div class="col-sm-10">
+
+    <div class="form-group">
+   <div class="col-sm-10">
+   <label for="sel1">Salutation:</label>
+{{form.salutation}}
+   </div>
+   </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="first_name">Nickname:</label>
+        <div class="col-sm-10">
+          <input type="email" class="form-control" id="email" placeholder="Enter nickname">
+        </div>
+      </div>
+
+     <div class="form-group">
+       <label class="control-label col-sm-2" for="first_name">Firstname:</label>
+       <div class="col-sm-10">
+         <input type="email" class="form-control" id="email" placeholder="Enter firstname">
+       </div>
+     </div>
+     <div class="form-group">
+       <label class="control-label col-sm-2" for="first_name">Surname:</label>
+       <div class="col-sm-10">
+         <input type="email" class="form-control" id="email" placeholder="Enter surname">
+       </div>
+     </div>
+
+     <div class="form-group">
+       <label class="control-label col-sm-2" for="first_name">CellPhone:</label>
+       <div class="col-sm-10">
+         <input type="email" class="form-control" id="email" placeholder="Enter cellphone">
+       </div>
+     </div>
+
+     <div class="form-group">
+       <label class="control-label col-sm-2" for="first_name">EmailAddress:</label>
+       <div class="col-sm-10">
+         <input type="email" class="form-control" id="email" placeholder="Enter cellphone">
+       </div>
+     </div>
+
+     <div class="form-group">
+       <label class="control-label col-sm-2" for="first_name">SAIDNumber:</label>
+       <div class="col-sm-10">
+         <input type="email" class="form-control" id="email" placeholder="Enter cellphone">
+       </div>
+     </div>
+
+</div>
+</div>
+
+ <div class="col-sm-8">
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="first_name">SAIDNumber:</label>
+    <div class="col-sm-10">
+      <input type="email" class="form-control" id="email" placeholder="Enter cellphone">
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+     <div class="form-group">
+       <div class="col-sm-offset-2 col-sm-10">
+         <button type="submit" class="btn btn-default">Submit</button>
+       </div>
+     </div>
+   </form>
+
+
+  <form method="POST" class="form-horizontal"  class="post-form">{% csrf_token %}
+
+{% for f in form %}
+<div class={{f.id_for_label}}>
+    {{ f.errors }}
+    {{ f.label_tag }}
+    {{ f }}
+ </div>
+{% endfor %}
+        <button type="submit" class="save btn btn-default">Save</button>
+      </form>
+      </div>
+
+
+    </div>
+
+
+  <div class="col-sm-4"></div>
+
+
+<script>
+
+ $(document).ready(function(){
+
+       $('input#id_SAidentityNo').focusout(function () {
+//       $('.test').hide();
+//       $('.div1').html('result');
+//        input#id_SAidentityNo
+       var idn = $("input#id_SAidentityNo").val();
+   $.ajax({
+       url: '/hello',
+       type: 'get', // This is the default though, you don't actually need to always mention it
+       data: {'id': idn},
+       success: function(data) {
+           alert(data);
+       },
+       failure: function(data) {
+           alert('Got an error');
+       }
+   });
+
+});
+
+ });
+
+
+  // $(document).ready(function(){
+  //  $('.id_SAidentityNo').focusout(function () {
+  //         $.ajax({url: '/hello', success: function(result){
+  //             $('.div1').html(result);
+  //         }});
+  //     });
+  // });
+
+
+//  $(document).ready(function(){
+
+//    $('.id_SAidentityNo').focusout(function () {
+//      $('.test').hide();
+//      $('.div1').html('result');
+
+//    $.ajax({
+//    url: '/hello',
+//    data: "aa",
+//    type: 'get', // This is the default though, you don't actually need to always mention it
+//    success: function(data) {
+//        alert(data);
+//    },
+//    failure: function(data) {
+//        alert('Got an error');
+//    }
+//});
+
+//    })
+//  });
+
+//  $(document).ready(function(){
+//  $('.id_visatype').hide();
+//  $('.id_nationality').hide();
+//  $('.id_PassportNo').hide();
+//  $('#id_isSouthAfrican').click(function(){
+//       if($('#id_isSouthAfrican').is(':checked'))
+//        {$('.id_SAidentityNo ').show();
+//         $('.id_visatype').hide();
+//         $('.id_nationality').hide();
+//         $('.id_PassportNo').hide();
+
+//   }
+//       else
+//        {$('.id_SAidentityNo ').hide();
+//         $('.id_visatype').show();
+//         $('.id_nationality').show();
+//         $('.id_PassportNo').show();
+//   }
+//   });
+//  });
+
+  </script>
+
+
+
+{% endblock %}
