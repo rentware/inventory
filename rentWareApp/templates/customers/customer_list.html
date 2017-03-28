@@ -1,0 +1,75 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+{% load staticfiles %}
+
+<link rel="stylesheet" href="{% static 'css/base.css' %}"></link>
+
+<div class="container">
+
+<!--
+  <div class="alert alert-warning">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+
+
+      
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+-->
+
+  <div class="row" >
+    <div class="col-sm-1"></div>
+
+      <form class="navbar-form" role="search">
+        <div class="input-group add-on">
+          <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text">
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+          </div>
+        </div>
+      </form>
+
+<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <span class="glyphicon-class">New Customer</span>
+
+
+          <table style="width:100%">
+            <caption><h1>Customers</h1></caption>
+            <tr>
+              <th>AccountCode</th>
+              <th>CompanyName</th>
+              <th>VATNumber</th>
+              <th>Contacts</th>
+              <th>Documents</th>
+            </tr>
+{% for g in customers%}
+            <tr>
+              <td style="width:10%"><a href="{#% url 'inventory_detail_guests' pk=guest.inventory.pk %#}" >
+              {{ g.AccountCode }}
+              </a></td>
+              <td style="width:10%">{{ g.CompanyName }}</td>
+              <td style="width:10%">{{ g.VATNumber }}</td>
+              <td style="width:5%"><a href="{#% url 'edit_guest_visit' guest_pk=guest.pk  visit_pk=g.pk  est_pk=guest.inventory.pk %#}"><span class="glyphicon glyphicon-user"></span></a></td>
+              <td style="width:5%"><a href="{#% url 'edit_guest_visit' guest_pk=guest.pk  visit_pk=g.pk  est_pk=guest.inventory.pk %#}"><span class="glyphicon glyphicon-picture"></span></a></td>
+            </tr>
+{% endfor %}
+          </table>
+
+
+{% endblock %}

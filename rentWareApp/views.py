@@ -1,37 +1,34 @@
 #from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Guest
-from .models import inventory
-from .models import Employee
-from .models import Contractor
-from .models import GuestVisit
-from .models import GuestFlag
-from .models import EmployeeFlag
-from .models import ContractorFlag
-from .models import UserGroup
-from .models import UserPerm
-from .models import Document
-from .models import UserAccessinventory
-from .models import SAIDFlags
+from .models import Inventory
+from .models import Customer
+#from .models import Contractor
+#from .models import GuestVisit
+#rom .models import EmployeeFlag
+#from .models import ContractorFlag
+#from .models import UserGroup
+#from .models import UserPerm
+#from .models import Document
+#from .models import UserAccessinventory
+#from .models import SAIDFlags
 
-#from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 
 
 #login
 #from django.contrib.auth import authenticate, login
-from .forms import GuestFlagForm
-from .forms import EmployeeFlagForm
-from .forms import ContractorFlagForm
-from .forms import GuestForm
-from .forms import ContractorForm
-from .forms import EmployeeForm
+#from .forms import EmployeeFlagForm
+#from .forms import ContractorFlagForm
+#from .forms import GuestForm
+#from .forms import ContractorForm
+#from .forms import EmployeeForm
 #from .forms import VisitForm
-from .forms import inventoryForm
+#from .forms import inventoryForm
 #from .forms import DocumentForm
-from .forms import GuestVisitForm
-from .forms import UploadFileForm
+#from .forms import GuestVisitForm
+#from .forms import UploadFileForm
 
-from .forms import SubUserForm
+#from .forms import SubUserForm
 
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -63,7 +60,7 @@ from django_ajax.decorators import ajax
 
 from django.core.mail import send_mail
 
-
+"""
 def send_simple_message():
     return requests.post(
         "https://api.mailgun.net/v3/sandboxfd58d2e368204fe694844425f650f55e.mailgun.org/messages",
@@ -72,13 +69,13 @@ def send_simple_message():
               "to": "Piet <piet@nix64bit.com>",
               "subject": "Hello Piet",
               "text": "Congratulations Piet, you just sent an email with Mailgun!  You are truly awesome!  You can see a record of this email in your logs: https://mailgun.com/cp/log .  You can send up to 300 emails/day from this sandbox server.  Next, you should add your own domain so you can send 10,000 emails/month for free."})
+"""
 
-
-
+"""
 def addUserGroup(user, group):
     group = Group.objects.get(name=group)
     user.groups.add(group)
-
+"""
 
 def group_required(group, login_url=None, raise_exception=False):
     def check_perms(user):
@@ -102,7 +99,6 @@ class LoggedInMixin(object):
     def dispatch(self, *args, **kwargs):
         return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
-#@group_required("guest_edit")
 def document_edit(request, pk, est_pk):
     document = get_object_or_404(Document, pk=pk)
     if request.method == "POST":
@@ -118,7 +114,21 @@ def document_edit(request, pk, est_pk):
     return render(request, 'downloaded/upload_edit.html', {'form': form})
 
 
+def about(request):
+    return render(request, 'documents/about.html', {})
 
+
+def tandc(request):
+    return render(request, 'documents/tandc.html', {})
+
+
+def customer_list(request):
+    messages.info(request, "Welcome "+request.user.username)
+    customers = Customer.objects.order_by('pk')
+    return render(request, 'customers/customer_list.html', {"customers": customers})
+
+
+"""
 #@group_required("employee_flag")
 def employee_flag(request, est_pk, pk):
     if request.method == "POST":
@@ -427,14 +437,8 @@ def test2(request):
 
     return render(request, 'guests/test.html', {'form': form})
 #    return render(request, 'users/test.html', {})
-
-def about(request):
-    return render(request, 'documents/about.html', {})
-
-
-def privacy(request):
-    return render(request, 'documents/privacy.html', {})
-
+"""
+"""
 
 def offenses(request):
     return render(request, 'documents/offenses.html', {})
@@ -523,6 +527,7 @@ def userAccess(user, inventory):
 
 @login_required
 #@group_required("inventory_list")
+"""
 def inventory_list(request):
     user = request.user
     useraccess = UserAccessinventory.objects.filter(users_inventory=user)
@@ -536,9 +541,9 @@ def inventory_list(request):
          "useraccess": useraccess,
          "debugtext": debugtext,
          })
+"""
 
-
-"""class inventoryDetailAdinstration(View):
+class inventoryDetailAdinstration(View):
         def get(self, request):
             user = request.user
             inventorys = inventory.objects.filter(author=user, pk=pk)
@@ -552,7 +557,7 @@ def inventory_list(request):
             "useraccess": useraccess,
             "inventory": inventory,
             })
-"""
+
 
 def inventory_detail_administration(request, pk):
     user = request.user
@@ -612,11 +617,13 @@ def sub_user_new(request, est_pk):
 
 #@login_required
 #@group_required("flagsearch_list")
+"""
 def flagsearch_list(request, pk):
 
     guest_list = ""  #Guest.objects.filter(inventory=pk)
     employee_list = ""
     contractor_list = ""
+"""
 
 # need list of actual
     guest_name_search = request.GET.get("srch-term")
@@ -830,3 +837,5 @@ def check_sa_id_for_flag(reqest, SAID):
 #C  : Citizenship. 0 SA; 1 Other.
 #A  : Usually 8, or 9 [can be other values]
 #Z  : Control digit calculated in the following section:
+
+"""

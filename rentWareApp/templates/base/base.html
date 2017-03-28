@@ -29,7 +29,7 @@
 <!--   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 -->
 
-<title>rentWare</title>
+<title>RentWare</title>
 
 </head>
 
@@ -41,8 +41,9 @@
             <img  src="/static/img/icon.jpg" class="img-rounded" alt="rentWare" width="64" height="66">
           </div>
           <ul class="nav navbar-nav">
-            <li><a href="/"><b>rentWare</b></a></li>
+            <li><a href="/"><b>RentWare</b></a></li>
             <li><a href="/about">About</a></li>
+            <li><a href="/tandc">Terms and Conditions</a></li>
 
           </ul>
 
@@ -50,8 +51,10 @@
 
             {% if user.is_authenticated %}
 
-          <li><a href="/about">Inventory</a></li>
-
+            <li><a href="/customer_list">Customers</a></li>
+            <li><a href="/about">Inventory</a></li>
+            <li><a href="/about">Rentals</a></li>
+            <li><a href="/about">Calandar</a></li>
 <!--
             <li class="dropdown">
               <a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-home"></span>rentWare<b class="caret"></b></a>
@@ -85,18 +88,25 @@
             <div class="panel-body">
               <p>
               {% block header %}
+              <div class="row" >
+                <div class="col-sm-2"></div>
+              {% if messages %}
+              <ul class="messages">
+                  {% for message in messages %}
+                  <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                      {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                      {{ message }}
+                  </li>
+                  {% endfor %}
+              </ul>
+              {% endif %}
+
+</div>
+
               {% endblock %}
              </p>
               <p>
                 {% block content %}
-
-                {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
 
                 {% endblock %}
               </p>

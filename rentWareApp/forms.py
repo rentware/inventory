@@ -1,5 +1,5 @@
 from django import forms
-from .models import Guest
+"""from .models import Guest
 from .models import Contractor
 from .models import Employee
 from .models import GuestVisit
@@ -13,7 +13,7 @@ from .models import Document
 from .models import UserAccessinventory
 #from .models import GuestVisit
 from .models import Salutation
-
+"""
 import datetime
 
 #from django.contrib.auth.models import User, Group
@@ -64,7 +64,7 @@ class DateSelectorWidget(widgets.MultiWidget):
         else:
             return str(D)
 
-"""
+
 
 
 #from functools import partial
@@ -73,7 +73,7 @@ class DateSelectorWidget(widgets.MultiWidget):
 #from bootstrap3_datetime.widgets import DateTimePicker
 #from django import forms
 
-
+"""
 class SignupForm(forms.Form):
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)
@@ -88,18 +88,10 @@ class SignupForm(forms.Form):
         user.last_name = self.cleaned_data['last_name']
         user.accept_terms = self.cleaned_data['accept_terms']
         user.save()
-
-
-
 """
 
-class MyForm(Form):
 
-    # the default format is %Y-%m-%d
-    date_available = forms.DateField(
-        widget=forms.widgets.DateInput(format="%m/%d/%Y"))
 
-"""
 
 
 class GuestVisitForm(forms.ModelForm):
@@ -360,3 +352,5 @@ class EmployeeForm(forms.ModelForm):
 #    def __init__(self, *args, **kwargs):
 #        super(VisitForm, self).__init__(*args, **kwargs)
 #        pass
+
+"""
