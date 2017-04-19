@@ -25,7 +25,7 @@ class Customer(models.Model):
     update_date = models.DateTimeField(
             blank=True, null=True, default=timezone.now)
 
-    def save(self):
+    def update_date(self):
         self.update_date = timezone.now()
         self.save()
 
