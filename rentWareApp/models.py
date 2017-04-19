@@ -16,10 +16,7 @@ class Customer(models.Model):
     CompanyName = models.CharField(max_length=200, default="")
     VATNumber = models.CharField(max_length=200, default="")
     user = models.ForeignKey('auth.User', null=True, default="")
-#    contact = models.ForeignKey(Contact, null=True, default="")
-#    uploads = models.ForeignKey(Upload, null=True, default="")
 
-#    comments = models.TextField(null=True, default="")
     created_date = models.DateTimeField(
             default=timezone.now)
     update_date = models.DateTimeField(

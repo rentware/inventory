@@ -1,8 +1,8 @@
 # import the logging library
-import logging
+#import logging
 
 # Get an instance of a logger
-logger = logging.getLogger(__name__)
+#logger = logging.getLogger(__name__)
 
 
 #from django.shortcuts import render
@@ -13,7 +13,6 @@ from .models import Address
 from .models import Image
 from .models import Comment
 from .models import Rental
-from .models import Address
 from .models import Contact
 
 from django.contrib.sites.shortcuts import get_current_site
@@ -163,7 +162,7 @@ def address_new(request, customer_pk):
 
 def customer_list(request):
     current_site = get_current_site(request)
-    messages.info(request, "Welcome "+request.user.username)
+    #messages.info(request, "Welcome "+request.user.username)
     customers = Customer.objects.order_by('pk')
     return render(request, 'customers/customer_list.html', {"customers": customers,})
 
