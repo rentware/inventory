@@ -11,9 +11,87 @@ from django.db.models import permalink
 import datetime
 
 
-class inventoryType(models.Model):
+class Customer(models.Model):
+    AccountCode = models.CharField(max_length=200, default="")
+    CompanyName = models.CharField(max_length=200, default="")
+    VATNumber = models.CharField(max_length=200, default="")
+    user = models.ForeignKey('auth.User', null=True, default="")
+#    contact = models.ForeignKey(Contact, null=True, default="")
+#    uploads = models.ForeignKey(Upload, null=True, default="")
+
+#    comments = models.TextField(null=True, default="")
+    created_date = models.DateTimeField(
+            default=timezone.now)
+    update_date = models.DateTimeField(
+            blank=True, null=True, default=timezone.now)
+
+    def save(self):
+        self.update_date = timezone.now()
+        self.save()
+
+
+    def __str__(self):
+        return self.CompanyName
+
+
+class Comment(models.Model):
+    customer = models.ForeignKey(Customer, null=True)
+    created_date = models.DateTimeField(
+    default=timezone.now)
+    updated_date = models.DateTimeField(
+    blank=True, null=True)
+
+class Rental(models.Model):
+    customer = models.ForeignKey(Customer, null=True)
+    created_date = models.DateTimeField(
+    default=timezone.now)
+    updated_date = models.DateTimeField(
+    blank=True, null=True)
+
+
+class Image(models.Model):
+    customer = models.ForeignKey(Customer, null=True)
+    created_date = models.DateTimeField(
+    default=timezone.now)
+    updated_date = models.DateTimeField(
+    blank=True, null=True)
+
+
+class TypeContact(models.Model):
+    customer = models.ForeignKey(Customer, null=True)
+#    author = models.ForeignKey('auth.User')
+#    name = models.CharField(max_length=200)
+#    created_date = models.DateTimeField(
+#    default=timezone.now)
+#    updated_date = models.DateTimeField(
+#    blank=True, null=True)
+
+#    def updated_date(self):
+#        self.updated_date = timezone.now()
+#        self.save()
+
+#    def __str__(self):
+#        return self.name
+class AddressType(models.Model):
     author = models.ForeignKey('auth.User')
     name = models.CharField(max_length=200)
+    created_date = models.DateTimeField(
+    default=timezone.now)
+    updated_date = models.DateTimeField(
+    blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Address(models.Model):
+    customer = models.ForeignKey(Customer, null=True)
+    address_type = models.ForeignKey(AddressType, null=True)
+    author = models.ForeignKey('auth.User')
+    street = models.CharField(max_length=200)
+    suburb = models.CharField(max_length=200)
+    city = models.CharField(max_length=200)
+    postal_code= models.CharField(max_length=200)
     created_date = models.DateTimeField(
     default=timezone.now)
     updated_date = models.DateTimeField(
@@ -24,14 +102,30 @@ class inventoryType(models.Model):
         self.save()
 
     def __str__(self):
-        return self.name
+        return self.street
+
+class TypeInventory(models.Model):
+    pass
+#    author = models.ForeignKey('auth.User')
+#    name = models.CharField(max_length=200)
+#    created_date = models.DateTimeField(
+#    default=timezone.now)
+#    updated_date = models.DateTimeField(
+#    blank=True, null=True)
+
+#    def updated_date(self):
+#        self.updated_date = timezone.now()
+#        self.save()
+
+#    def __str__(self):
+#        return self.name
 
 
 class Inventory(models.Model):
     name = models.CharField(max_length=200, default="")
     description = models.CharField(max_length=200, default="")
     partID = models.CharField(max_length=200, default="")
-    inventorytype = models.ForeignKey(inventoryType, default="")
+#    typeinventory = models.ForeignKey(TypeInventory, default="")
     author = models.ForeignKey('auth.User')
     comments = models.TextField(default="")
     created_date = models.DateTimeField(
@@ -59,6 +153,9 @@ Contact cell number on site
 Postal Address (Business Address)
 Delivery Address
 """
+
+
+
 class Upload(models.Model):
     name = models.CharField(max_length=200)
     docfile = models.FileField(upload_to='documents/%Y/%m/%d')
@@ -66,10 +163,9 @@ class Upload(models.Model):
 class Contact(models.Model):
     author = models.ForeignKey('auth.User')
     name = models.CharField(max_length=200, default="")
-    created_date = models.DateTimeField(
-    default=timezone.now)
-    updated_date = models.DateTimeField(
-    blank=True, null=True)
+    customer = models.ForeignKey(Customer, null=True, default="")
+    created_date = models.DateTimeField(default=timezone.now)
+    updated_date = models.DateTimeField(blank=True, null=True)
 
     def updated_date(self):
         self.updated_date = timezone.now()
@@ -78,28 +174,13 @@ class Contact(models.Model):
     def __str__(self):
         return self.name
 
-class Customer(models.Model):
-    AccountCode = models.CharField(max_length=200, default="")
-    CompanyName = models.CharField(max_length=200, default="")
-    VATNumber = models.CharField(max_length=200, default="")
-    user = models.ForeignKey('auth.User', null=True, default="")
-    contact = models.ForeignKey(Contact, default="")
-    uploads = models.ForeignKey(Upload, default="")
 
+class Comments(models.Model):
+    title = models.CharField(max_length=200, default="comment")
     comments = models.TextField(null=True, default="")
-    created_date = models.DateTimeField(
-            default=timezone.now)
-    update_date = models.DateTimeField(
-            blank=True, null=True, default=timezone.now)
-
-    def update_date(self):
-        self.visit_date = timezone.now()
-        self.save()
-
 
     def __str__(self):
-        return self.CompanyName
-
+        return self.title
 
 
 """

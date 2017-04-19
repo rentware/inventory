@@ -26,7 +26,7 @@ SECRET_KEY = 'qszjc%jfu$^5)f)m^)(t4po*z56f(rwx+cx0culn&9q%$ctns+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
+ALLOWED_HOSTS = ['*']
 
 
 LOGIN_REDIRECT_URL = '/'
@@ -41,26 +41,32 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 #SOCIALACCOUNT_QUERY_EMAIL = True
 #LOGIN_REDIRECT_URL = "/"
 
-#import smptlib
-#s=smtplib.SMTP("smtp.gmail.com", 465)
-#s.ehlo()
-#s.starttls()
-#s.login("email@gmail.com", "password")
-
 #EMAIL_USE_SSL = False
 
 #START_TTLS = True
 #EMAIL_HOST = 'smtp.migadu.com'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+
+#DEFAULT_FROM_EMAIL = 'peter@oomblik.com'
+#EMAIL_HOST = 'mx.oomblik.com'
+#EMAIL_PORT = 587
+#EMAIL_HOST_USER = 'peter@oomblik.com'
+#EMAIL_HOST_PASSWORD = '220961'
+#EMAIL_USE_TLS = True
+#EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+
+#EMAIL_HOST = 'smtp.gmail.com'
+#EMAIL_PORT = 587
 #EMAIL_HOST_USER = "piet@nix64bit.com"
-EMAIL_HOST_USER = 'peterretief@gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_HOST_PASSWORD = "peter@password3"
+#EMAIL_HOST_USER = 'peterretief@gmail.com'
+#EMAIL_USE_TLS = True
+#EMAIL_HOST_PASSWORD = "imp0ssible1A"
+
+EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
 #LATEST SecurityMiddleware
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
-
+# ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
+#for tesring
 ACCOUNT_SIGNUP_FORM_CLASS = 'rentWareApp.forms.SignupForm'
 
 STRIPE_SECRET_KEY = os.environ.get(
@@ -103,6 +109,7 @@ INSTALLED_APPS = [
     'allauth.account'
 ]
 
+
 SITE_ID = 1
 
 SOCIALACCOUNT_PROVIDERS = \
@@ -136,7 +143,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-#                'breadcrumbs.middleware.BreadcrumbsMiddleware',
+#                'django.core.context_processors.request',
+              #  'breadcrumbs.middleware.BreadcrumbsMiddleware',
               #  'payments.context_processors.payments_settings',
               #  "payments.multipayments.context_processors.settings",
             ],
@@ -246,3 +254,42 @@ MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+        },
+    },
+    'handlers': {
+        'default': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': '/home/peter/INVENTORY/flippen.log',
+            'maxBytes': 1024*1024*5, # 5 MB
+            'backupCount': 5,
+            'formatter':'standard',
+        },
+        'request_handler': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': '/home/peter/INVENTORY/flippen.request',
+            'maxBytes': 1024*1024*5, # 5 MB
+            'backupCount': 5,
+            'formatter':'standard',
+        },
+    },
+    'root': {
+        'handlers': ['default'],
+        'level': 'DEBUG'
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['request_handler'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+    }
+}

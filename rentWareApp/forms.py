@@ -1,19 +1,13 @@
 from django import forms
-"""from .models import Guest
-from .models import Contractor
-from .models import Employee
-from .models import GuestVisit
-from .models import inventory
-from .models import GuestFlag
-from .models import EmployeeFlag
-from .models import ContractorFlag
-from .models import Nationality
-from .models import VisaType
-from .models import Document
-from .models import UserAccessinventory
-#from .models import GuestVisit
-from .models import Salutation
-"""
+
+from .models import Customer
+from .models import Address
+from .models import Contact
+from .models import Image
+from .models import Comment
+from .models import Rental
+
+#from .models import Contact
 import datetime
 
 #from django.contrib.auth.models import User, Group
@@ -23,6 +17,47 @@ import datetime
 #from django.forms import ModelChoiceField, CheckboxInput, HiddenInput
 
 from django.contrib.auth import get_user_model
+
+
+"""
+class ContactForm(forms.ModelForm):
+
+    class Meta:
+        model = Contact
+        fields = '__all__'
+    #    exclude = ['uploads', 'user', 'comment', 'author', 'created_date', 'updated_date']
+
+    def __init__(self, *args, **kwargs):
+        super(ContactForm, self).__init__(*args, **kwargs)
+        pass
+"""
+
+class AddressForm(forms.ModelForm):
+
+    class Meta:
+        model = Address
+        fields = '__all__'
+        exclude = ['comments', 'contact', 'uploads', 'user', 'author', 'created_date', 'updated_date']
+
+    def __init__(self, *args, **kwargs):
+        super(AddressForm, self).__init__(*args, **kwargs)
+        pass
+
+
+class CustomerForm(forms.ModelForm):
+
+    class Meta:
+        model = Customer
+        fields = '__all__'
+        exclude = ['comments', 'contact', 'uploads', 'user', 'author', 'created_date', 'updated_date']
+
+    def __init__(self, *args, **kwargs):
+        super(CustomerForm, self).__init__(*args, **kwargs)
+        pass
+        # there's a `fields` property now
+#        self.fields['SAidentityNo'].required = False
+#        self.fields['nationality'].required = False
+#        self.fields['visatype'].required = False
 
 
 """

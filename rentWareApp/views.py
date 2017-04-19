@@ -1,7 +1,27 @@
+# import the logging library
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
+
 #from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Inventory
 from .models import Customer
+from .models import Address
+from .models import Image
+from .models import Comment
+from .models import Rental
+from .models import Address
+from .models import Contact
+
+from django.contrib.sites.shortcuts import get_current_site
+
+#import pdb
+#pdb.set_trace()
+
+
 #from .models import Contractor
 #from .models import GuestVisit
 #rom .models import EmployeeFlag
@@ -17,7 +37,7 @@ from django.contrib.auth.models import User
 
 #login
 #from django.contrib.auth import authenticate, login
-#from .forms import EmployeeFlagForm
+from .forms import CustomerForm
 #from .forms import ContractorFlagForm
 #from .forms import GuestForm
 #from .forms import ContractorForm
@@ -58,18 +78,7 @@ from django.contrib import messages
 
 from django_ajax.decorators import ajax
 
-from django.core.mail import send_mail
-
-"""
-def send_simple_message():
-    return requests.post(
-        "https://api.mailgun.net/v3/sandboxfd58d2e368204fe694844425f650f55e.mailgun.org/messages",
-        auth=("api", "key-59c0af4db64ce11ac8166ed94ad68b5c"),
-        data={"from": "Mailgun Sandbox <postmaster@sandboxfd58d2e368204fe694844425f650f55e.mailgun.org>",
-              "to": "Piet <piet@nix64bit.com>",
-              "subject": "Hello Piet",
-              "text": "Congratulations Piet, you just sent an email with Mailgun!  You are truly awesome!  You can see a record of this email in your logs: https://mailgun.com/cp/log .  You can send up to 300 emails/day from this sandbox server.  Next, you should add your own domain so you can send 10,000 emails/month for free."})
-"""
+#from django.core.mail import send_mail
 
 """
 def addUserGroup(user, group):
@@ -99,6 +108,98 @@ class LoggedInMixin(object):
     def dispatch(self, *args, **kwargs):
         return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
+def rental_list(request, customer_pk):
+    rental = Rental.objects.filter(customer=customer_pk).order_by('pk')
+    customer = Customer.objects.filter(pk=customer_pk).get()
+
+    return render(request, 'rentals/rental_list.html',
+        {'rental': rental, 'customer': customer, })
+
+def rental_new(request, customer_pk):
+    pass
+
+
+def comment_list(request, customer_pk):
+    comment = Comment.objects.filter(customer=customer_pk).order_by('pk')
+    customer = Customer.objects.filter(pk=customer_pk).get()
+
+    return render(request, 'comments/comment_list.html',
+        {'comment': comment, 'customer': customer, })
+
+def comment_new(request, customer_pk):
+    pass
+
+
+def image_list(request, customer_pk):
+    image = Image.objects.filter(customer=customer_pk).order_by('pk')
+    customer = Customer.objects.filter(pk=customer_pk).get()
+
+    return render(request, 'images/image_list.html',
+        {'image': image, 'customer': customer, })
+
+def image_new(request, customer_pk):
+    pass
+
+
+def contact_list(request, customer_pk):
+    contact = Contact.objects.filter(customer=customer_pk).order_by('pk')
+    customer = Customer.objects.filter(pk=customer_pk).get()
+
+    return render(request, 'contacts/contact_list.html',
+        {'contact': contact, 'customer': customer, })
+
+def contact_new(request, customer_pk):
+    pass
+
+def address_list(request, customer_pk):
+    addresses = Address.objects.filter(customer=customer_pk).order_by('pk')
+    customer = Customer.objects.filter(pk=customer_pk).get()
+
+    return render(request, 'addresses/address_list.html',
+        {'addresses': addresses, 'customer': customer, })
+
+def address_new(request, customer_pk):
+    pass
+
+def customer_list(request):
+    current_site = get_current_site(request)
+    messages.info(request, "Welcome "+request.user.username)
+    customers = Customer.objects.order_by('pk')
+    return render(request, 'customers/customer_list.html', {"customers": customers,})
+
+def customer_new(request):
+    if request.method == "POST":
+        user = None
+        if request.user.is_authenticated():
+            user = request.user.pk
+
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            customer = form.save(commit=False)
+            customer.author = request.user
+            #customer._id = est_pk
+            customer.published_date = timezone.now()
+            customer.save()
+            return redirect('customer_list')
+    else:
+        form = CustomerForm()
+    return render(request, 'customers/customer_edit.html', {'form': form})
+
+
+def customer_edit(request):
+    customer = get_object_or_404(Customer, pk=pk)
+    if request.method == "POST":
+        form = CustomerForm(request.POST, instance=customer)
+        if form.is_valid():
+            customer = form.save(commit=False)
+            customer.author = request.user
+            customer.published_date = timezone.now()
+            customer.save()
+            return redirect('customer_list')
+    else:
+        form = CustomForm(instance=customer)
+    return render(request, 'customers/customer_edit.html', {'form': form})
+
 def document_edit(request, pk, est_pk):
     document = get_object_or_404(Document, pk=pk)
     if request.method == "POST":
@@ -122,10 +223,6 @@ def tandc(request):
     return render(request, 'documents/tandc.html', {})
 
 
-def customer_list(request):
-    messages.info(request, "Welcome "+request.user.username)
-    customers = Customer.objects.order_by('pk')
-    return render(request, 'customers/customer_list.html', {"customers": customers})
 
 
 """
@@ -416,8 +513,9 @@ def hello(request):
     else:
         flagged = "clear"
 
-
     return HttpResponse(flagged)
+
+
 #RETURNHERE
 def denied(request):
     return render(request, 'denied/denied.html', {})

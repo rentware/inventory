@@ -2,43 +2,16 @@
 
 {% block content %}
 
+
 {% load staticfiles %}
+
 
 <link rel="stylesheet" href="{% static 'css/base.css' %}"></link>
 
 <div class="container">
 
-<!--
-  <div class="alert alert-warning">
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-      </div>
-
-
-
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
-        {{ message }}
-    </li>
-    {% endfor %}
-</ul>
-{% endif %}
-
--->
-
-
-
-
-
   <div class="row" >
+
     <div class="col-sm-1"></div>
 
       <form class="navbar-form" role="search">
@@ -50,7 +23,7 @@
         </div>
       </form>
 
-<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <span class="glyphicon-class">New Customer</span>
+<span class="glyphicon glyphicon-plus" aria-hidden="true"><a href="{% url 'customer_new' %}"></span> <span class="glyphicon-class">New Customer</span></a>
 
 
           <table style="width:100%">
@@ -60,7 +33,11 @@
               <th>CompanyName</th>
               <th>VATNumber</th>
               <th>Contacts</th>
-              <th>Documents</th>
+              <th>Addresses</th>
+              <th>Images</th>
+              <th>Comments</th>
+              <th>Rentals</th>
+              <th>Edit/View</th>
             </tr>
 {% for g in customers%}
             <tr>
@@ -69,11 +46,14 @@
               </a></td>
               <td style="width:10%">{{ g.CompanyName }}</td>
               <td style="width:10%">{{ g.VATNumber }}</td>
-              <td style="width:5%"><a href="{#% url 'edit_guest_visit' guest_pk=guest.pk  visit_pk=g.pk  est_pk=guest.inventory.pk %#}"><span class="glyphicon glyphicon-user"></span></a></td>
-              <td style="width:5%"><a href="{#% url 'edit_guest_visit' guest_pk=guest.pk  visit_pk=g.pk  est_pk=guest.inventory.pk %#}"><span class="glyphicon glyphicon-picture"></span></a></td>
+              <td style="width:1%"><a href="{% url 'contact_list' customer_pk=g.pk  %}"><span class="glyphicon glyphicon-user"></span></a></td>
+              <td style="width:1%"><a href="{% url 'address_list' customer_pk=g.pk  %}"><span class="glyphicon glyphicon-user"></span></a></td>
+              <td style="width:1%"><a href="{% url 'image_list' customer_pk=g.pk  %}"><span class="glyphicon glyphicon-picture"></span></a></td>
+              <td style="width:1%"><a href="{% url 'comment_list' customer_pk=g.pk  %}"><span class="glyphicon glyphicon-picture"></span></a></td>
+              <td style="width:1%"><a href="{% url 'rental_list' customer_pk=g.pk  %}"><span class="glyphicon glyphicon-picture"></span></a></td>
+              <td style="width:1%"><a href="{% url 'address_list' customer_pk=g.pk  %}"><span class="glyphicon glyphicon-picture"></span></a></td>
             </tr>
 {% endfor %}
           </table>
-
 
 {% endblock %}

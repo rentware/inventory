@@ -20,8 +20,23 @@ urlpatterns = [
 #    url(r'^denied/$', views.denied, name='denied'),
 #test for breadcrumbs
     url(r'^customer_list/$', views.customer_list, name='customer_list'),
-
+    url(r'^customer_new/$', views.customer_new, name='customer_new'),
 #    url(r'^sub_user/(?P<est_pk>\d+)/new/$', views.sub_user_new, name='sub_user_new'),
+
+    url(r'^contact_list/(?P<customer_pk>\d+)$', views.contact_list, name='contact_list'),
+    url(r'^contact_new/(?P<customer_pk>\d+)$', views.contact_new, name='contact_new'),
+
+    url(r'^comment_list/(?P<customer_pk>\d+)$', views.comment_list, name='comment_list'),
+    url(r'^comment_new/(?P<customer_pk>\d+)$', views.comment_new, name='comment_new'),
+
+    url(r'^image_list/(?P<customer_pk>\d+)$', views.image_list, name='image_list'),
+    url(r'^image_new/(?P<customer_pk>\d+)$', views.image_new, name='image_new'),
+
+    url(r'^address_list/(?P<customer_pk>\d+)$', views.address_list, name='address_list'),
+    url(r'^address_new/(?P<customer_pk>\d+)$', views.address_new, name='address_new'),
+
+    url(r'^rental_list/(?P<customer_pk>\d+)$', views.rental_list, name='rental_list'),
+    url(r'^rental_new/(?P<customer_pk>\d+)$', views.rental_new, name='rental_new'),
 
 #    url(r'^sub_user_delete/(?P<sub_user_pk>\d+)/estab/(?P<est_pk>\d+)/$',
 #    views.sub_user_delete, name='sub_user_delete'),

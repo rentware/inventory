@@ -9,10 +9,10 @@
 
     {% if isnew == 0 %}
      <a href="{% url 'inventory_detail_guests' pk=est_pk %}" class="glyphicon glyphicon-chevron-left">inventory...</a>
-     <lable  for="guest"><h1>Edit Guest: {{guest.surname}}</h1></lable>
+     <lable  for="guest"><h1>Edit customer: {{guest.surname}}</h1></lable>
      <td style="width:1%"><a href="{% url 'list_guest_flag' guest_pk=guest.pk est_pk=est_pk  %}"<button type="button" class="btn btn-danger btn-xs">offense flag management</button></a></td>
     {% else %}
-      <lable  for="guest"><h1>New Guest</h1></lable>
+      <lable  for="guest"><h1>New Customer</h1></lable>
     {% endif %}
 
 

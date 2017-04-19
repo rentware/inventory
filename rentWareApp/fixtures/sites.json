@@ -3,9 +3,9 @@
         "pk": 1,
         "model": "sites.site",
         "fields": {
-            "domain": "localhost:8000",
-            "name": "example.com [localhost]"
-        }
+            "domain": "rentware.oomblik.",
+            "name": "Rentware"
+                  }
     },
     {
         "pk": 2,
@@ -13,7 +13,7 @@
         "fields": {
             "domain": "example.com",
             "name": "example.com"
-        }
+                  }
     }
 
 
