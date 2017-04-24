@@ -9,6 +9,11 @@ from .models import TypeContact
 from .models import AddressType
 from .models import TypeInventory
 from .models import Address
+
+
+from .models import Telephone
+from .models import Image
+from .models import Comment
 #from .models import EmployeeType
 #from .models import inventoryType
 #from .models import VisaType
@@ -32,6 +37,10 @@ admin.site.register(TypeContact)
 admin.site.register(AddressType)
 admin.site.register(Address)
 admin.site.register(TypeInventory)
+
+admin.site.register(Telephone)
+admin.site.register(Comment)
+admin.site.register(Image)
 
 #admin.site.register(ContractorType)
 #admin.site.register(Employee)

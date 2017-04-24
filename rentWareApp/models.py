@@ -12,10 +12,11 @@ import datetime
 
 
 class Customer(models.Model):
+    author = models.ForeignKey('auth.User', null=True)
     AccountCode = models.CharField(max_length=200, default="")
     CompanyName = models.CharField(max_length=200, default="")
     VATNumber = models.CharField(max_length=200, default="")
-    user = models.ForeignKey('auth.User', null=True, default="")
+#    user = models.ForeignKey('auth.User', null=True, default="")
 
     created_date = models.DateTimeField(
             default=timezone.now)
@@ -32,29 +33,71 @@ class Customer(models.Model):
 
 
 class Comment(models.Model):
+    author = models.ForeignKey('auth.User', null=True)
+    comment = models.TextField()
     customer = models.ForeignKey(Customer, null=True)
     created_date = models.DateTimeField(
     default=timezone.now)
     updated_date = models.DateTimeField(
     blank=True, null=True)
 
+
+    def __str__(self):
+        return self.created_date.strftime('%d/%m/%Y')
+
 class Rental(models.Model):
+    author = models.ForeignKey('auth.User', null=True)
+    name = models.CharField(max_length=200)
     customer = models.ForeignKey(Customer, null=True)
     created_date = models.DateTimeField(
     default=timezone.now)
     updated_date = models.DateTimeField(
     blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+class Telephone(models.Model):
+    PHONE_TYPE = (
+        ('P', 'Personal Cellphone'),
+        ('C', 'Private Cellphone'),
+        ('S', 'Standby Cellphone'),
+        ('O', 'Office Landline'),
+        ('K', 'Inquiries Landline'),
+        ('H', 'Home Landline'),
+        ('Q', 'Direct Office Extension'),
+        ('V', 'Virtual Phone'),
+    )
+    TypeofTelephone = models.CharField(max_length=1, choices=PHONE_TYPE, default='O')
+    author = models.ForeignKey('auth.User', null=True)
+    name = models.CharField(max_length=200)
+    customer = models.ForeignKey(Customer, null=True)
+    created_date = models.DateTimeField(
+    default=timezone.now)
+    updated_date = models.DateTimeField(
+    blank=True, null=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Image(models.Model):
+    imagefile = StdImageField(upload_to='documents/%Y/%m/%d', blank=True, variations={'large': (640, 480), 'thumbnail': (120, 120, True)})
+    author = models.ForeignKey('auth.User', null=True)
+    name = models.CharField(max_length=200)
     customer = models.ForeignKey(Customer, null=True)
     created_date = models.DateTimeField(
     default=timezone.now)
     updated_date = models.DateTimeField(
     blank=True, null=True)
 
+    def __str__(self):
+        return self.name
+
 
 class TypeContact(models.Model):
+    author = models.ForeignKey('auth.User', null=True)
+    name = models.CharField(max_length=200)
     customer = models.ForeignKey(Customer, null=True)
 #    author = models.ForeignKey('auth.User')
 #    name = models.CharField(max_length=200)
@@ -70,7 +113,8 @@ class TypeContact(models.Model):
 #    def __str__(self):
 #        return self.name
 class AddressType(models.Model):
-    author = models.ForeignKey('auth.User')
+    name = models.CharField(max_length=200)
+    author = models.ForeignKey('auth.User', null=True)
     name = models.CharField(max_length=200)
     created_date = models.DateTimeField(
     default=timezone.now)
@@ -84,7 +128,7 @@ class AddressType(models.Model):
 class Address(models.Model):
     customer = models.ForeignKey(Customer, null=True)
     address_type = models.ForeignKey(AddressType, null=True)
-    author = models.ForeignKey('auth.User')
+    author = models.ForeignKey('auth.User', null=True)
     street = models.CharField(max_length=200)
     suburb = models.CharField(max_length=200)
     city = models.CharField(max_length=200)
@@ -102,7 +146,7 @@ class Address(models.Model):
         return self.street
 
 class TypeInventory(models.Model):
-    pass
+    author = models.ForeignKey('auth.User', null=True)
 #    author = models.ForeignKey('auth.User')
 #    name = models.CharField(max_length=200)
 #    created_date = models.DateTimeField(
@@ -123,7 +167,7 @@ class Inventory(models.Model):
     description = models.CharField(max_length=200, default="")
     partID = models.CharField(max_length=200, default="")
 #    typeinventory = models.ForeignKey(TypeInventory, default="")
-    author = models.ForeignKey('auth.User')
+    author = models.ForeignKey('auth.User', null=True)
     comments = models.TextField(default="")
     created_date = models.DateTimeField(
             default=timezone.now)
@@ -154,13 +198,21 @@ Delivery Address
 
 
 class Upload(models.Model):
+    author = models.ForeignKey('auth.User', null=True)
     name = models.CharField(max_length=200)
     docfile = models.FileField(upload_to='documents/%Y/%m/%d')
 
 class Contact(models.Model):
-    author = models.ForeignKey('auth.User')
-    name = models.CharField(max_length=200, default="")
+    author = models.ForeignKey('auth.User', null=True)
+    firstname = models.CharField(max_length=200, default="")
+    surname = models.CharField(max_length=200, default="")
+    email = models.CharField(max_length=200, default="")
+    cellPhoneNumber = models.CharField(max_length=200, default="")
     customer = models.ForeignKey(Customer, null=True, default="")
+    Telephone = models.ForeignKey(Telephone, null=True, default="")
+    address = models.ForeignKey(Address, null=True, default="")
+    comment = models.ForeignKey(Comment, null=True, default="")
+    image  = models.ForeignKey(Image, null=True, default="")
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(blank=True, null=True)
 
@@ -169,15 +221,7 @@ class Contact(models.Model):
         self.save()
 
     def __str__(self):
-        return self.name
-
-
-class Comments(models.Model):
-    title = models.CharField(max_length=200, default="comment")
-    comments = models.TextField(null=True, default="")
-
-    def __str__(self):
-        return self.title
+        return '%s %s' % (self.firstname, self.surname)
 
 
 """

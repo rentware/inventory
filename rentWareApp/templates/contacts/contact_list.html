@@ -8,13 +8,6 @@
 
 <div class="container">
 
-<a href="{# % url 'inventory_detail_guests' pk=guest.inventory.pk % #}" class="glyphicon glyphicon-chevron-left">inventory...</a>
-
-
-{{addresses}}
-{{customer}}
-
-
   <div class="row" >
     <div class="col-sm-1"></div>
 
@@ -26,6 +19,33 @@
           </div>
         </div>
       </form>
+
+
+      <a class="outline" href="{% url 'customer_list' %}">Back to customer list</a>
+      <br/>
+      <br/>
+      <span class="glyphicon btn btn-primary outline" aria-hidden="true"><a href="{% url 'customer_new' %}">New Contact</span></a>
+
+
+
+      <table style="width:100%">
+        <caption><h1>Customers</h1></caption>
+        <tr>
+          <th>First Name</th>
+          <th>Surname</th>
+        </tr>
+{% for g in contact%}
+        <tr>
+          <td style="width:10%">{{ g.firstname }}</td>
+          <td style="width:10%">{{ g.surname }}</td>
+        </tr>
+{% endfor %}
+      </table>
+
+
+
+
+
 
 <div class="alert alert-warning">
       {% if messages %}

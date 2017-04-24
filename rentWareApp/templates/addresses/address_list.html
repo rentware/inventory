@@ -8,12 +8,6 @@
 
 <div class="container">
 
-<a href="{# % url 'inventory_detail_guests' pk=guest.inventory.pk % #}" class="glyphicon glyphicon-chevron-left">inventory...</a>
-
-
-{{addresses}}
-{{customer}}
-
 
   <div class="row" >
     <div class="col-sm-1"></div>
@@ -27,14 +21,37 @@
         </div>
       </form>
 
-<div class="alert alert-warning">
-      {% if messages %}
-      <ul class="messages">
-          {% for message in messages %}
-          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-          {% endfor %}
-      </ul>
-      {% endif %}
-    </div>
+
+    <a class="outline" href="{% url 'customer_list' %}">Back to customer list</a>
+    <br/>
+    <br/>
+    <span class="glyphicon btn btn-primary outline" aria-hidden="true"><a href="{% url 'customer_new' %}">New Address</span></a>
+
+
+    <table style="width:100%">
+      <caption><h1>Customers</h1></caption>
+      <tr>
+        <th>First Name</th>
+        <th>Surname</th>
+      </tr>
+{% for g in addresses%}
+      <tr>
+        <td style="width:10%">{{ g.street }}</td>
+        <td style="width:10%">{{ g.city }}</td>
+      </tr>
+{% endfor %}
+    </table>
+
+    <div class="alert alert-warning">
+          {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+
+
 
 {% endblock %}
