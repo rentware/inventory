@@ -25,19 +25,21 @@
     <a class="outline" href="{% url 'customer_list' %}">Back to customer list</a>
     <br/>
     <br/>
-    <span class="glyphicon btn btn-primary outline" aria-hidden="true"><a href="{% url 'customer_new' %}">New Address</span></a>
+    <span class="glyphicon btn btn-primary outline" aria-hidden="true"><a href="{% url 'address_new' customer_pk=customer.pk %}">New Address</span></a>
 
 
     <table style="width:100%">
-      <caption><h1>Customers</h1></caption>
+      <caption><h1>Addresses for {{customer.CompanyName}}</h1></caption>
       <tr>
-        <th>First Name</th>
-        <th>Surname</th>
+        <th>Street</th>
+        <th>City</th>
+        <th>Address Type</th>
       </tr>
 {% for g in addresses%}
       <tr>
         <td style="width:10%">{{ g.street }}</td>
         <td style="width:10%">{{ g.city }}</td>
+        <td style="width:10%">{{ g.address_type.name }}</td>
       </tr>
 {% endfor %}
     </table>

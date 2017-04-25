@@ -113,7 +113,6 @@ class TypeContact(models.Model):
 #    def __str__(self):
 #        return self.name
 class AddressType(models.Model):
-    name = models.CharField(max_length=200)
     author = models.ForeignKey('auth.User', null=True)
     name = models.CharField(max_length=200)
     created_date = models.DateTimeField(
@@ -209,10 +208,10 @@ class Contact(models.Model):
     email = models.CharField(max_length=200, default="")
     cellPhoneNumber = models.CharField(max_length=200, default="")
     customer = models.ForeignKey(Customer, null=True, default="")
-    Telephone = models.ForeignKey(Telephone, null=True, default="")
-    address = models.ForeignKey(Address, null=True, default="")
+#    Telephone = models.ForeignKey(Telephone, null=True, default="")
+#    address = models.ForeignKey(Address, null=True, default="")
     comment = models.ForeignKey(Comment, null=True, default="")
-    image  = models.ForeignKey(Image, null=True, default="")
+#    image  = models.ForeignKey(Image, null=True, default="")
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(blank=True, null=True)
 

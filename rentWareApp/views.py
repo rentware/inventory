@@ -37,15 +37,11 @@ from django.contrib.auth.models import User
 #login
 #from django.contrib.auth import authenticate, login
 from .forms import CustomerForm
-#from .forms import ContractorFlagForm
-#from .forms import GuestForm
-#from .forms import ContractorForm
-#from .forms import EmployeeForm
-#from .forms import VisitForm
-#from .forms import inventoryForm
-#from .forms import DocumentForm
-#from .forms import GuestVisitForm
-#from .forms import UploadFileForm
+from .forms import ContactForm
+from .forms import AddressForm
+from .forms import CommentForm
+from .forms import RentalForm
+from .forms import ImageForm
 
 #from .forms import SubUserForm
 
@@ -79,12 +75,6 @@ from django_ajax.decorators import ajax
 
 #from django.core.mail import send_mail
 
-"""
-def addUserGroup(user, group):
-    group = Group.objects.get(name=group)
-    user.groups.add(group)
-"""
-
 def group_required(group, login_url=None, raise_exception=False):
     def check_perms(user):
         if isinstance(group, six.string_types):
@@ -107,6 +97,18 @@ class LoggedInMixin(object):
     def dispatch(self, *args, **kwargs):
         return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
+
+def customer_main_view(request, customer_pk):
+    customer = Customer.objects.filter(pk=customer_pk).get()
+    contacts = Contact.objects.filter(customer_id=customer_pk).all()
+    addresses = Address.objects.filter(customer_id=customer_pk).all()
+    comments = Comment.objects.filter(customer_id=customer_pk).all()
+    images = Image.objects.filter(customer_id=customer_pk).all()
+
+    return render(request, 'customer_main_view/customer_main_view.html',
+        {'customer': customer, 'contacts': contacts,'addresses': addresses,'comments': comments,'images': images,})
+
+
 def rental_list(request, customer_pk):
     rental = Rental.objects.filter(customer=customer_pk).order_by('pk')
     customer = Customer.objects.filter(pk=customer_pk).get()
@@ -114,8 +116,23 @@ def rental_list(request, customer_pk):
     return render(request, 'rentals/rental_list.html',
         {'rental': rental, 'customer': customer, })
 
+
 def rental_new(request, customer_pk):
-    pass
+    customer = get_object_or_404(Customer, pk=customer_pk)
+    if request.method == "POST":
+        form = RentalForm(request.POST)
+        if form.is_valid():
+            rental = form.save(commit=False)
+            rental.author = request.user
+            rental.customer_id = customer_pk
+            rental.created_date = timezone.now()
+            rental.save()
+            messages.success(request, 'Rental details saved.')
+            return redirect('rental_list', customer_pk=customer_pk)
+    else:
+        isnew=0
+        form = RentalForm()
+    return render(request, 'rentals/rental_edit.html', {'form': form,  'isnew': isnew,})
 
 
 def comment_list(request, customer_pk):
@@ -126,7 +143,20 @@ def comment_list(request, customer_pk):
         {'comment': comment, 'customer': customer, })
 
 def comment_new(request, customer_pk):
-    pass
+    customer = get_object_or_404(Customer, pk=customer_pk)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.customer_id = customer_pk
+            comment.created_date = timezone.now()
+            comment.save()
+            messages.success(request, 'Comment details saved.')
+            return redirect('comment_list', customer_pk=customer_pk)
+    else:
+        form = CommentForm()
+    return render(request, 'comments/comment_edit.html', {'form': form, })
 
 
 def image_list(request, customer_pk):
@@ -136,8 +166,37 @@ def image_list(request, customer_pk):
     return render(request, 'images/image_list.html',
         {'image': image, 'customer': customer, })
 
+def address_new(request, customer_pk):
+    customer = get_object_or_404(Customer, pk=customer_pk)
+    if request.method == "POST":
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            address = form.save(commit=False)
+            address.author = request.user
+            address.customer_id = customer_pk
+            address.created_date = timezone.now()
+            address.save()
+            messages.success(request, 'Address details saved.')
+            return redirect('address_list', customer_pk=customer_pk)
+    else:
+        form = AddressForm()
+    return render(request, 'addresses/address_edit.html', {'form': form, })
+
 def image_new(request, customer_pk):
-    pass
+    customer = get_object_or_404(Customer, pk=customer_pk)
+    if request.method == "POST":
+        form = ImageForm(request.POST)
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.author = request.user
+            image.customer_id = customer_pk
+            image.created_date = timezone.now()
+            image.save()
+            messages.success(request, 'Image details saved.')
+            return redirect('image_list', customer_pk=customer_pk)
+    else:
+        form = ImageForm()
+    return render(request, 'images/image_edit.html', {'form': form, })
 
 
 def contact_list(request, customer_pk):
@@ -148,7 +207,23 @@ def contact_list(request, customer_pk):
         {'contact': contact, 'customer': customer, })
 
 def contact_new(request, customer_pk):
-    pass
+    customer = get_object_or_404(Customer, pk=customer_pk)
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            contact = form.save(commit=False)
+            contact.author = request.user
+            contact.customer_id = customer_pk
+            contact.created_date = timezone.now()
+            contact.save()
+            messages.success(request, 'Contact details saved.')
+            return redirect('contact_list', customer_pk=customer_pk)
+    else:
+        form = ContactForm()
+    return render(request, 'contacts/contact_edit.html', {'form': form, })
+
+
+
 
 def address_list(request, customer_pk):
     addresses = Address.objects.filter(customer=customer_pk).order_by('pk')
@@ -157,8 +232,6 @@ def address_list(request, customer_pk):
     return render(request, 'addresses/address_list.html',
         {'addresses': addresses, 'customer': customer, })
 
-def address_new(request, customer_pk):
-    pass
 
 def customer_list(request):
     current_site = get_current_site(request)

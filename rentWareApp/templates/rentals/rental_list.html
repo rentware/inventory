@@ -8,13 +8,6 @@
 
 <div class="container">
 
-<a href="{# % url 'inventory_detail_guests' pk=guest.inventory.pk % #}" class="glyphicon glyphicon-chevron-left">inventory...</a>
-
-
-{{addresses}}
-{{customer}}
-
-
   <div class="row" >
     <div class="col-sm-1"></div>
 
@@ -27,14 +20,25 @@
         </div>
       </form>
 
-<div class="alert alert-warning">
-      {% if messages %}
-      <ul class="messages">
-          {% for message in messages %}
-          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-          {% endfor %}
-      </ul>
-      {% endif %}
-    </div>
+
+      <a class="outline" href="{% url 'customer_list' %}">Back to customer list</a>
+      <br/>
+      <br/>
+      <span class="glyphicon btn btn-primary outline" aria-hidden="true"><a href="{% url 'rental_new' customer_pk=customer.pk %}">New Rental</span></a>
+
+
+      <table style="width:100%">
+        <caption><h1>Rentals</h1></caption>
+        <tr>
+          <th>PK</th>
+          <th>Name</th>
+        </tr>
+{% for g in rental %}
+        <tr>
+          <td style="width:10%">{{ g.pk }}</td>
+          <td style="width:10%">{{ g.name }}</td>
+        </tr>
+{% endfor %}
+      </table>
 
 {% endblock %}

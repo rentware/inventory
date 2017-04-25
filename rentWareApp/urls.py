@@ -23,6 +23,9 @@ urlpatterns = [
     url(r'^customer_new/$', views.customer_new, name='customer_new'),
 #    url(r'^sub_user/(?P<est_pk>\d+)/new/$', views.sub_user_new, name='sub_user_new'),
 
+    url(r'^customer_main_view/(?P<customer_pk>\d+)$', views.customer_main_view, name='customer_main_view'),
+
+
     url(r'^contact_list/(?P<customer_pk>\d+)$', views.contact_list, name='contact_list'),
     url(r'^contact_new/(?P<customer_pk>\d+)$', views.contact_new, name='contact_new'),
 

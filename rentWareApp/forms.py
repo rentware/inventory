@@ -19,25 +19,70 @@ import datetime
 from django.contrib.auth import get_user_model
 
 
-"""
-class ContactForm(forms.ModelForm):
+class CommentForm(forms.ModelForm):
 
     class Meta:
-        model = Contact
+        model = Comment
         fields = '__all__'
-    #    exclude = ['uploads', 'user', 'comment', 'author', 'created_date', 'updated_date']
+        exclude = ['uploads', 'user', 'comment', 'author', 'created_date', 'updated_date', 'customer',]
 
     def __init__(self, *args, **kwargs):
-        super(ContactForm, self).__init__(*args, **kwargs)
+        super(CommentForm, self).__init__(*args, **kwargs)
         pass
-"""
+
+class RentalForm(forms.ModelForm):
+
+    class Meta:
+        model = Rental
+        fields = '__all__'
+        exclude = ['uploads', 'user', 'comment', 'author', 'created_date', 'updated_date', 'customer',]
+
+    def __init__(self, *args, **kwargs):
+        super(RentalForm, self).__init__(*args, **kwargs)
+        pass
+
+class ImageForm(forms.ModelForm):
+
+    class Meta:
+        model = Image
+        fields = '__all__'
+        exclude = ['uploads', 'user', 'comment', 'author', 'created_date', 'updated_date', 'customer',]
+
+    def __init__(self, *args, **kwargs):
+        super(ImageForm, self).__init__(*args, **kwargs)
+        pass
+
 
 class AddressForm(forms.ModelForm):
 
     class Meta:
         model = Address
         fields = '__all__'
-        exclude = ['comments', 'contact', 'uploads', 'user', 'author', 'created_date', 'updated_date']
+        exclude = ['uploads', 'user', 'comment', 'author', 'created_date', 'updated_date', 'customer',]
+
+    def __init__(self, *args, **kwargs):
+        super(AddressForm, self).__init__(*args, **kwargs)
+        pass
+
+
+class ContactForm(forms.ModelForm):
+
+    class Meta:
+        model = Contact
+        fields = '__all__'
+        exclude = ['uploads', 'user', 'comment', 'author', 'created_date', 'updated_date', 'customer',]
+
+    def __init__(self, *args, **kwargs):
+        super(ContactForm, self).__init__(*args, **kwargs)
+        pass
+
+
+class AddressForm(forms.ModelForm):
+
+    class Meta:
+        model = Address
+        fields = '__all__'
+        exclude = ['comments', 'customer', 'uploads', 'user', 'author', 'created_date', 'updated_date']
 
     def __init__(self, *args, **kwargs):
         super(AddressForm, self).__init__(*args, **kwargs)

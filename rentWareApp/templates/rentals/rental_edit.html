@@ -2,17 +2,15 @@
 
 {% block content %}
 
-
 <div class="row" >
 
 <div class="col-sm-2"></div>
   <div class="col-sm-4">
 
-
 {% if isnew == 0 %}
- <lable  for="visit"><h1>New Visit:</h1></lable>
+ <lable  for="rental"><h1>New Rental:</h1></lable>
 {% else %}
-  <lable  for="visit"><h1>Edit Visit</h1></lable>
+  <lable  for="rental"><h1>Edit Rental</h1></lable>
 {% endif %}
 
 <form method="POST" class=".form-inline" class="post-form">{% csrf_token %}
@@ -43,23 +41,5 @@
 
 </div>
 </div>
-
-
-<input type="text" value="2012-05-15 21:05:00" id="datetimepicker">
-
-
-<script>
-
-$('#datetimepicker').datetimepicker({
-    format: 'yyyy-mm-dd hh:ii'
-});
-
-//$('#datetimepicker').datetimepicker();
-
-//  $("#id_arrival_date").datetimepicker({ datetimeFormat: 'yy-mm-dd+HH:MM' });
-
-//  $("#id_arrival_date").value
-
-</script>
 
 {% endblock %}

@@ -23,11 +23,11 @@
     <a class="outline" href="{% url 'customer_list' %}">Back to customer list</a>
     <br/>
     <br/>
-    <span class="glyphicon btn btn-primary outline" aria-hidden="true"><a href="{% url 'customer_new' %}">New Comment</span></a>
+    <span class="glyphicon btn btn-primary outline" aria-hidden="true"><a href="{% url 'comment_new'  customer_pk=customer.pk %}">New Comment</span></a>
 
 
     <table style="width:100%">
-      <caption><h1>Customers</h1></caption>
+      <caption><h1>Comments</h1></caption>
       <tr>
         <th>Name</th>
         <th>Comment</th>

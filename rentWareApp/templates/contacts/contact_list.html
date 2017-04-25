@@ -24,7 +24,7 @@
       <a class="outline" href="{% url 'customer_list' %}">Back to customer list</a>
       <br/>
       <br/>
-      <span class="glyphicon btn btn-primary outline" aria-hidden="true"><a href="{% url 'customer_new' %}">New Contact</span></a>
+      <span class="glyphicon btn btn-primary outline" aria-hidden="true"><a href="{% url 'contact_new' customer_pk=customer.pk %}">New Contact</span></a>
 
 
 
@@ -45,16 +45,5 @@
 
 
 
-
-
-<div class="alert alert-warning">
-      {% if messages %}
-      <ul class="messages">
-          {% for message in messages %}
-          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-          {% endfor %}
-      </ul>
-      {% endif %}
-    </div>
 
 {% endblock %}
