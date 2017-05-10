@@ -56,20 +56,7 @@
             <li><a href="/about">Rentals</a></li>
             <li><a href="/about">Calendar</a></li>
             <li><a href="/about">Manage Labels</a></li>
-<!--
-            <li class="dropdown">
-              <a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-home"></span>rentWare<b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="/inventorys">Inventory</a></li>
-                <li><a href="/inventory_new">Create new inventory</a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Manage flagged</li>
-                <li><a href="{% url 'flagsearch_list' pk=user.pk %}">Check flagged </a></li>
 
-              </ul>
-
-            </li>
--->
 
           	<li><a href="{% url 'account_email' %}"><span class="glyphicon glyphicon-user"></span> Welcome {{user.email}} </a></li>
           	<li><a href="{% url 'account_logout' %}"><span class="glyphicon glyphicon-user">SignOut</a></li>
@@ -84,7 +71,6 @@
       <div class="row">
 
           <div class="panel panel-default">
-            <!-- Default panel contents -->
             <div class="panel-heading"></div>
             <div class="panel-body">
               <p>

@@ -17,6 +17,8 @@ from .models import Contact
 
 from django.contrib.sites.shortcuts import get_current_site
 
+from django.views.generic import ListView
+
 #import pdb
 #pdb.set_trace()
 
@@ -74,6 +76,23 @@ from django.contrib import messages
 from django_ajax.decorators import ajax
 
 #from django.core.mail import send_mail
+
+
+#from twilio import twiml
+#from django_twilio.decorators import twilio_view
+
+#@twilio_view
+#def reply_to_sms_messages(request):
+#    r = twiml.Response()
+#    r.message('Thanks for the SMS message!')
+#    return r
+
+
+
+class InventoryList(ListView):
+    "First class based list"
+    paginate_by = 2
+    model = Inventory
 
 def group_required(group, login_url=None, raise_exception=False):
     def check_perms(user):

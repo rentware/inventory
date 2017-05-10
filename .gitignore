@@ -6,8 +6,9 @@ db.sqlite3
 .DS_Store
 requirements_backup
 /nvenv
-
-
+django-twilio-0.8.0/
+rentWare/env
+rentWareApp/templates/rentWareApp/
 
 # Elastic Beanstalk Files
 #.elasticbeanstalk/*

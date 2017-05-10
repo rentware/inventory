@@ -16,6 +16,9 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+TWILIO_ACCOUNT_SID = 'ACfa6c4288d4bc4b02b2ab00ddb3a5988a'
+TWILIO_AUTH_TOKEN = '6b1173ba8e1fb47718f645ce2ebe8044'
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
@@ -100,6 +103,7 @@ INSTALLED_APPS = [
 #    'payments',
 #    "payments.multipayments",
     'stdimage',
+#    'django_twilio',
 #    'django_bootstrap_breadcrumbs',
 #    'django_ajax',
 #    'bootstrap3_datetime',

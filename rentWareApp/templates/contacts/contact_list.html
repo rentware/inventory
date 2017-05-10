@@ -33,11 +33,15 @@
         <tr>
           <th>First Name</th>
           <th>Surname</th>
+          <th>CellPhone</th>
+          <th>Email</th>
         </tr>
 {% for g in contact%}
         <tr>
           <td style="width:10%">{{ g.firstname }}</td>
           <td style="width:10%">{{ g.surname }}</td>
+          <td style="width:10%">{{ g.cellPhoneNumber }}</td>
+          <td style="width:10%">{{ g.email }}</td>
         </tr>
 {% endfor %}
       </table>
