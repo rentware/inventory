@@ -17,7 +17,7 @@ from .models import Contact
 
 from django.contrib.sites.shortcuts import get_current_site
 
-from django.views.generic import ListView
+#from django.views.generic import ListView
 
 #import pdb
 #pdb.set_trace()
@@ -44,11 +44,12 @@ from .forms import AddressForm
 from .forms import CommentForm
 from .forms import RentalForm
 from .forms import ImageForm
+from .forms import InventoryForm
 
 #from .forms import SubUserForm
 
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
+#from django.utils.decorators import method_decorator
+#from django.contrib.auth.decorators import login_required
 
 from django.utils import timezone
 #import datetime
@@ -75,24 +76,126 @@ from django.contrib import messages
 
 from django_ajax.decorators import ajax
 
-#from django.core.mail import send_mail
+from django.views.generic import TemplateView
+from django.views.generic import DetailView, CreateView, UpdateView, ListView, DeleteView
 
 
-#from twilio import twiml
-#from django_twilio.decorators import twilio_view
-
-#@twilio_view
-#def reply_to_sms_messages(request):
-#    r = twiml.Response()
-#    r.message('Thanks for the SMS message!')
-#    return r
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 
+class LoggedInMixin(object):
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
-class InventoryList(ListView):
-    "First class based list"
-    paginate_by = 2
+#Customer block
+class CustomerListView(LoggedInMixin, ListView):
+    "Customer list"
+    template_name = "customers/customer_list.html"
+#    model = Customer
+    context_object_name = 'all_customers'
+    paginate_by = 4
+#    @method_decorator(login_required)
+    def get_queryset(self):
+        search_term = ''
+        if ('search_term' in self.request.GET) and self.request.GET['search_term'].strip():
+            search_term = self.request.GET['search_term'].strip()
+            result = Customer.objects.filter(Q(AccountCode=search_term))
+        else:
+            result = Customer.objects.all().order_by('-created_date')
+
+        return result
+
+
+class CustomerCreateView(LoggedInMixin, CreateView):
+    "Customer list"
+    form_class = CustomerForm
+    template_name = 'customers/customer_edit.html'
+    success_url = '/customer_list'
+
+
+class CustomerUpdateView(LoggedInMixin, UpdateView):
+    "Customer update"
+    model = Customer
+    form_class = CustomerForm
+    template_name = 'customers/customer_edit.html'
+    success_url = '/customer_list'
+
+
+class CustomerDeleteView(LoggedInMixin, DeleteView):
+    "Customer delete"
+    form_class = CustomerForm
+    template_name = 'customers/customer_edit.html'
+    success_url = '/customer_list'
+
+
+class CustomerDetailView(LoggedInMixin, DetailView):
+    "Customer detail"
+    template_name = "customer_detail/customer_detail.html"
+    context_object_name = 'customer_detail'
+    model = Customer
+
+    def get_context_data(self, **kwargs):
+            context = super(CustomerDetailView, self).get_context_data(**kwargs)
+            context['update_date'] = timezone.now()
+            return context
+
+
+#inventorys block
+class InventoryListView(LoggedInMixin, ListView):
+    "Customer list"
+    template_name = "inventories/inventory_list.html"
+    context_object_name = 'all_inventories'
+    paginate_by = 4
+    def get_queryset(self):
+        search_term = ''
+        if ('search_term' in self.request.GET) and self.request.GET['search_term'].strip():
+            search_term = self.request.GET['search_term'].strip()
+            result = Inventory.objects.filter(Q(partID=search_term))
+        else:
+            result = Inventory.objects.all().order_by('-created_date')
+
+        return result
+
+
+class InventoryCreateView(LoggedInMixin, CreateView):
+    "Customer list"
+    form_class = InventoryForm
+    template_name = 'inventories/inventory_edit.html'
+    success_url = '/inventory_list'
+
+
+class InventoryUpdateView(LoggedInMixin, UpdateView):
+    "Customer update"
     model = Inventory
+    form_class = InventoryForm
+    template_name = 'inventories/inventory_edit.html'
+    success_url = '/inventory_list'
+
+
+class InventoryDeleteView(LoggedInMixin, DeleteView):
+    "Customer delete"
+    form_class = InventoryForm
+    template_name = 'inventories/inventory_edit.html'
+    success_url = '/inventory_list'
+
+
+class InventoryDetailView(LoggedInMixin, DetailView):
+    "Inventory detail"
+    template_name = "inventories/inventory_detail.html"
+    context_object_name = 'inventory_detail'
+    model = Inventory
+
+    def get_context_data(self, **kwargs):
+            context = super(InventoryDetailView, self).get_context_data(**kwargs)
+            context['update_date'] = timezone.now()
+            return context
+#end block inventorys
+
+
+
+
 
 def group_required(group, login_url=None, raise_exception=False):
     def check_perms(user):
@@ -111,10 +214,6 @@ def group_required(group, login_url=None, raise_exception=False):
     return user_passes_test(check_perms, login_url='denied')
 
 #not used
-class LoggedInMixin(object):
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
 
 def customer_main_view(request, customer_pk):

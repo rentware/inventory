@@ -3,6 +3,8 @@ from django.db import models
 from django.utils import timezone
 from stdimage import StdImageField
 
+from django.template.defaultfilters import slugify
+
 
 class Item(models.Model):
     "This class defines the items in the inventory"
@@ -20,7 +22,7 @@ class Item(models.Model):
 class Customer(models.Model):
     "Model class"
     author = models.ForeignKey('auth.User', null=True)
-    AccountCode = models.CharField(max_length=200, default="")
+    AccountCode = models.CharField(max_length=200, unique=True)
     CompanyName = models.CharField(max_length=200, default="")
     VATNumber = models.CharField(max_length=200, default="")
 
@@ -29,11 +31,12 @@ class Customer(models.Model):
     update_date = models.DateTimeField(
         blank=True, null=True, default=timezone.now)
 
-    def save_date(self):
-        "Called when data is updated"
-        self.update_date = timezone.now()
-        self.save()
+    slug = models.SlugField(unique=True)
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.AccountCode)
+        self.update_date = timezone.now()
+        super(Customer, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.CompanyName
@@ -155,13 +158,24 @@ class Inventory(models.Model):
 #    u_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, default="")
     description = models.CharField(max_length=200, default="")
-    partID = models.CharField(max_length=10, default="")
+    partID = models.CharField(max_length=10, unique=True)
     author = models.ForeignKey('auth.User', null=True)
     comments = models.TextField(default="")
     created_date = models.DateTimeField(
         default=timezone.now)
     updated_date = models.DateTimeField(
         blank=True, null=True)
+
+    slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.partID)
+        self.update_date = timezone.now()
+        super(Inventory, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.partID
+
 
 #    def save(self):
 #        self.updated_date = timezone.now()

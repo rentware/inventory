@@ -2,16 +2,44 @@ from django.conf.urls import url
 from django.conf.urls.static import static
 from django.conf import settings
 from . import views
-from .views import InventoryList
+#from .views import InventoryList
+#classview imports
+#from django.views.generic import TemplateView
 
+from .views import CustomerListView
+from .views import CustomerDetailView
+from .views import CustomerCreateView
+from .views import CustomerUpdateView
+from .views import CustomerDeleteView
 #from django.contrib import auth
+from .views import InventoryListView
+from .views import InventoryDetailView
+from .views import InventoryCreateView
+from .views import InventoryUpdateView
+from .views import InventoryDeleteView
 
 
 urlpatterns = [
-
-    url(r'^inventory/$', InventoryList.as_view()),
     url(r'^$', views.about, name='about'),
-    url(r'^customer_list/$', views.customer_list, name='customer_list'),
+
+    url(r'^customer_create/$', CustomerCreateView.as_view(), name='customer_create'),
+    url(r'^customer_update/(?P<slug>[\w\-]+)/$', CustomerUpdateView.as_view(), name='customer_update'),
+    url(r'^customer_list/$', CustomerListView.as_view(), name='customer_list'),
+    url(r'^customer/(?P<slug>[\w\-]+)/$', CustomerDetailView.as_view(), name='customer_detail'),
+
+    url(r'^inventory_create/$', InventoryCreateView.as_view(), name='inventory_create'),
+    url(r'^inventory_update/(?P<slug>[\w\-]+)/$', InventoryUpdateView.as_view(), name='inventory_update'),
+    url(r'^inventory_list/$', InventoryListView.as_view(), name='inventory_list'),
+    url(r'^inventory/(?P<slug>[\w\-]+)/$', InventoryDetailView.as_view(), name='inventory_detail'),
+
+#    url(r'^inventory/$', InventoryList.as_view()),
+#    url(r'^$', views.about, name='about'),
+
+
+#    url(r'^customer_list/$', views.customer_list, name='customer_list'),
+
+#    url(r'^customer_l/$', TemplateView.as_view(template_name="about.html")),
+
     url(r'^customer_new/$', views.customer_new, name='customer_new'),
     url(r'^customer_main_view/(?P<customer_pk>\d+)$', \
             views.customer_main_view, name='customer_main_view'),

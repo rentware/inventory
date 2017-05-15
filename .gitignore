@@ -9,6 +9,11 @@ requirements_backup
 django-twilio-0.8.0/
 rentWare/env
 rentWareApp/templates/rentWareApp/
+rentWare/settings.py
+
+customers.csv
+customers.xml
+mycsv.py
 
 # Elastic Beanstalk Files
 #.elasticbeanstalk/*

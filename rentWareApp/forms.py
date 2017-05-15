@@ -6,6 +6,7 @@ from .models import Contact
 from .models import Image
 from .models import Comment
 from .models import Rental
+from .models import Inventory
 
 #from .models import Contact
 import datetime
@@ -82,10 +83,22 @@ class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
         fields = '__all__'
-        exclude = ['comments', 'customer', 'uploads', 'user', 'author', 'created_date', 'updated_date']
+        exclude = ['comments', 'customer', 'uploads', 'user', 'author', 'created_date', 'update_date']
 
     def __init__(self, *args, **kwargs):
         super(AddressForm, self).__init__(*args, **kwargs)
+        pass
+
+#findne
+class InventoryForm(forms.ModelForm):
+
+    class Meta:
+        model = Inventory
+        fields = '__all__'
+        exclude = ['slug', 'comments', 'contact', 'uploads', 'user', 'author', 'created_date', 'update_date']
+
+    def __init__(self, *args, **kwargs):
+        super(InventoryForm, self).__init__(*args, **kwargs)
         pass
 
 
@@ -94,15 +107,11 @@ class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = '__all__'
-        exclude = ['comments', 'contact', 'uploads', 'user', 'author', 'created_date', 'updated_date']
+        exclude = ['slug', 'comments', 'contact', 'uploads', 'user', 'author', 'created_date', 'update_date']
 
     def __init__(self, *args, **kwargs):
         super(CustomerForm, self).__init__(*args, **kwargs)
         pass
-        # there's a `fields` property now
-#        self.fields['SAidentityNo'].required = False
-#        self.fields['nationality'].required = False
-#        self.fields['visatype'].required = False
 
 
 """

@@ -24,9 +24,8 @@
         </div>
       </form>
 
-<!--<span class="glyphicon btn btn-primary outline" aria-hidden="true"><a href="{% url 'customer_new' %}">New Customer</span></a>-->
 
-<span class="glyphicon btn btn-primary outline" aria-hidden="true"><a href="{% url 'customer_create' %}">New Customer</span></a>
+<span class="glyphicon btn btn-primary outline" aria-hidden="true"><a href="{% url 'inventory_create' %}">New Inventory</span></a>
 
 <!-- Trigger the modal with a button -->
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
@@ -55,31 +54,21 @@
 
 
           <table style="width:100%">
-            <caption><h1>Customers</h1></caption>
+            <caption><h1>Inventory</h1></caption>
             <tr>
-              <th>AccountCode</th>
-              <th>CompanyName</th>
-              <th>VATNumber</th>
-              <th>Contacts</th>
-              <th>Addresses</th>
-              <th>Images</th>
-              <th>Comments</th>
-              <th>Rentals</th>
+              <th>PartID</th>
+              <th>Name</th>
+              <th>Description</th>
               <th>Edit/View</th>
             </tr>
 {% for g in object_list%}
             <tr>
-              <td style="width:10%"><a href="{% url 'customer_detail' g.slug %}" >
-              {{ g.AccountCode }}
+              <td style="width:10%"><a href="{% url 'inventory_detail' g.slug %}" >
+              {{ g.partID }}
               </a></td>
-              <td style="width:10%">{{ g.CompanyName }}</td>
-              <td style="width:10%">{{ g.VATNumber }}</td>
-              <td style="width:1%"><a href="{% url 'contact_list' customer_pk=g.pk  %}"><span class="glyphicon glyphicon-user"></span></a></td>
-              <td style="width:1%"><a href="{% url 'address_list' customer_pk=g.pk  %}"><span class="glyphicon glyphicon-user"></span></a></td>
-              <td style="width:1%"><a href="{% url 'image_list' customer_pk=g.pk  %}"><span class="glyphicon glyphicon-picture"></span></a></td>
-              <td style="width:1%"><a href="{% url 'comment_list' customer_pk=g.pk  %}"><span class="glyphicon glyphicon-picture"></span></a></td>
-              <td style="width:1%"><a href="{% url 'rental_list' customer_pk=g.pk  %}"><span class="glyphicon glyphicon-picture"></span></a></td>
-              <td style="width:1%"><a href="{% url 'customer_update' g.slug %}"><span class="glyphicon glyphicon-picture"></span></a></td>
+              <td style="width:10%">{{ g.name }}</td>
+              <td style="width:10%">{{ g.description }}</td>
+              <td style="width:1%"><a href="{% url 'inventory_update' g.slug %}"><span class="glyphicon glyphicon-picture"></span></a></td>
             </tr>
 {% endfor %}
           </table>
