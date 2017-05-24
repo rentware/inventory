@@ -11,14 +11,20 @@
     <a class="outline" href="{% url 'customer_list' %}">Back to customer list</a>
     <br/>
     <br/>
-<label>Company Code</label><p>{{customer_detail.AccountCode}}</p>
-<label>Company Name</label><p>{{customer_detail.CompanyName}}</p>
-<label>Company VATNumber</label><p>{{customer_detail.VATNumber}}</p>
-<ul>
-<caption>Contacts</caption>
-{% for c in contacts %}
-<li><label>First Name</label><p>{{c.firstname}}</p></li>
+
+<table style="width:80%">
+  <caption><h1>Detail view</h1></caption>
+{% for field, val in object %}
+  <tr>
+    <th>{{field}}</th>
+  </tr>
+  <tr>
+    <td>{{ val }}</td>
+  </tr>
 {% endfor %}
-</ul>
+</table>
+
+
+
 
 {% endblock %}

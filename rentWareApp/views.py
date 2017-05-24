@@ -14,6 +14,8 @@ from .models import Image
 from .models import Comment
 from .models import Rental
 from .models import Contact
+from .models import Rate
+from .models import Specification
 
 from django.contrib.sites.shortcuts import get_current_site
 
@@ -74,7 +76,7 @@ from dateutil import parser
 
 from django.contrib import messages
 
-from django_ajax.decorators import ajax
+#from django_ajax.decorators import ajax
 
 from django.views.generic import TemplateView
 from django.views.generic import DetailView, CreateView, UpdateView, ListView, DeleteView
@@ -88,6 +90,24 @@ class LoggedInMixin(object):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(LoggedInMixin, self).dispatch(*args, **kwargs)
+
+
+class RateListView(LoggedInMixin, ListView):
+    "rate list"
+    template_name = "rates/rate_list.html"
+    context_object_name = 'all_rates'
+    def get_queryset(self):
+        result = Rate.objects.filter(inventory__slug=self.kwargs ['slug']).order_by('slug')
+        return result
+
+class SpecificationListView(LoggedInMixin, ListView):
+    "rate list"
+    template_name = "specification/specification_list.html"
+    context_object_name = 'all_specifications'
+    def get_queryset(self):
+        result = Specification.objects.filter(inventory__slug=self.kwargs ['slug']).order_by('slug')
+        return result
+
 
 #Customer block
 class CustomerListView(LoggedInMixin, ListView):
@@ -132,6 +152,7 @@ class CustomerDeleteView(LoggedInMixin, DeleteView):
 
 class CustomerDetailView(LoggedInMixin, DetailView):
     "Customer detail"
+    form_class = CustomerForm
     template_name = "customer_detail/customer_detail.html"
     context_object_name = 'customer_detail'
     model = Customer
@@ -140,6 +161,7 @@ class CustomerDetailView(LoggedInMixin, DetailView):
             context = super(CustomerDetailView, self).get_context_data(**kwargs)
             context['update_date'] = timezone.now()
             return context
+
 
 
 #inventorys block
@@ -181,6 +203,8 @@ class InventoryDeleteView(LoggedInMixin, DeleteView):
     success_url = '/inventory_list'
 
 
+
+
 class InventoryDetailView(LoggedInMixin, DetailView):
     "Inventory detail"
     template_name = "inventories/inventory_detail.html"
@@ -191,8 +215,9 @@ class InventoryDetailView(LoggedInMixin, DetailView):
             context = super(InventoryDetailView, self).get_context_data(**kwargs)
             context['update_date'] = timezone.now()
             return context
-#end block inventorys
 
+
+#end block inventorys
 
 
 

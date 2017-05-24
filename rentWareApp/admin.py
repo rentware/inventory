@@ -7,14 +7,15 @@ from .models import Upload
 
 from .models import TypeContact
 from .models import AddressType
-from .models import TypeInventory
+from .models import Category
 from .models import Address
 
 
 from .models import Telephone
 from .models import Image
 from .models import Comment
-#from .models import EmployeeType
+from .models import Specification
+from .models import Rate
 #from .models import inventoryType
 #from .models import VisaType
 #from .models import Offense
@@ -36,14 +37,14 @@ admin.site.register(Upload)
 admin.site.register(TypeContact)
 admin.site.register(AddressType)
 admin.site.register(Address)
-admin.site.register(TypeInventory)
+admin.site.register(Category)
 
 admin.site.register(Telephone)
 admin.site.register(Comment)
 admin.site.register(Image)
 
-#admin.site.register(ContractorType)
-#admin.site.register(Employee)
+admin.site.register(Specification)
+admin.site.register(Rate)
 #admin.site.register(inventoryType)
 #admin.site.register(VisaType)
 #admin.site.register(Offense)

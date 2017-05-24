@@ -27,38 +27,15 @@
 
 <span class="glyphicon btn btn-primary outline" aria-hidden="true"><a href="{% url 'inventory_create' %}">New Inventory</span></a>
 
-<!-- Trigger the modal with a button -->
-<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
-
-
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
-      </div>
-      <div class="modal-body">
-        <p>Some text in the modal.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 
           <table style="width:100%">
             <caption><h1>Inventory</h1></caption>
             <tr>
               <th>PartID</th>
+              <th>Category</th>
               <th>Name</th>
-              <th>Description</th>
+              <th>Rates</th>
+              <th>Specification</th>
               <th>Edit/View</th>
             </tr>
 {% for g in object_list%}
@@ -66,8 +43,10 @@
               <td style="width:10%"><a href="{% url 'inventory_detail' g.slug %}" >
               {{ g.partID }}
               </a></td>
+              <td style="width:10%">{{ g.category.name }}</td>
               <td style="width:10%">{{ g.name }}</td>
-              <td style="width:10%">{{ g.description }}</td>
+              <td style="width:10%"><a href="{% url 'rate_list' g.slug %}">Rate</a></td>
+              <td style="width:10%"><a href="{% url 'specification_list' g.slug %}">Rate</a></td>
               <td style="width:1%"><a href="{% url 'inventory_update' g.slug %}"><span class="glyphicon glyphicon-picture"></span></a></td>
             </tr>
 {% endfor %}

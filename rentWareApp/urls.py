@@ -6,6 +6,9 @@ from . import views
 #classview imports
 #from django.views.generic import TemplateView
 
+from .views import RateListView
+from .views import SpecificationListView
+
 from .views import CustomerListView
 from .views import CustomerDetailView
 from .views import CustomerCreateView
@@ -21,6 +24,9 @@ from .views import InventoryDeleteView
 
 urlpatterns = [
     url(r'^$', views.about, name='about'),
+
+    url(r'^rate_list/(?P<slug>[\w\-]+)/$', RateListView.as_view(), name='rate_list'),
+    url(r'^specification_list/(?P<slug>[\w\-]+)/$', SpecificationListView.as_view(), name='specification_list'),
 
     url(r'^customer_create/$', CustomerCreateView.as_view(), name='customer_create'),
     url(r'^customer_update/(?P<slug>[\w\-]+)/$', CustomerUpdateView.as_view(), name='customer_update'),

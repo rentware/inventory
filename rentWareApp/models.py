@@ -5,19 +5,152 @@ from stdimage import StdImageField
 
 from django.template.defaultfilters import slugify
 
+from django.contrib.postgres.fields import JSONField
 
-class Item(models.Model):
-    "This class defines the items in the inventory"
-    author = models.ForeignKey('auth.User', null=True)
-    item = models.CharField(max_length=10, db_index=True, default="")
+from autoslug import AutoSlugField
+
+"""
+Inventory schema
+****************
+Category: has_many_items
+Invent: has_many_specifications, has_many_rates
+Specification:
+Rate:
+"""
+
+class Webscrape(models.Model):
+    name = models.CharField(max_length=200)
+    data = JSONField()
     created_date = models.DateTimeField(
         default=timezone.now)
     updated_date = models.DateTimeField(
         blank=True, null=True)
 
+    slug = AutoSlugField(populate_from='name')
+    #slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+#        self.slug = slugify(self.name)
+        self.update_date = timezone.now()
+        super(Webscrape, self).save(*args, **kwargs)
+
+    def __str__(self):  # __unicode__ on Python 2
+        return self.name
+
+
+class Category(models.Model):
+    "Top category for inventory"
+    name = models.CharField(max_length=200, unique=True)
+    author = models.ForeignKey('auth.User', null=True, default="")
+
+    created_date = models.DateTimeField(
+        default=timezone.now)
+    updated_date = models.DateTimeField(
+        blank=True, null=True)
+
+    slug = AutoSlugField(populate_from='name')
+    #slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+#        self.slug = slugify(self.name)
+        self.update_date = timezone.now()
+        super(Category, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.item
+        return self.name
+
+    def __iter__(self):
+        for field_name in self._meta.get_all_field_names():
+            value = getattr(self, field_name, None)
+            yield (field_name, value)
+
+
+class Inventory(models.Model):
+    "Inventory main class"
+#    u_id = models.AutoField(primary_key=True)
+    category = models.ForeignKey(Category, null=True)
+    name = models.CharField(max_length=200, default="")
+    description = models.CharField(max_length=200, default="")
+    partID = models.CharField(max_length=10, unique=True)
+    author = models.ForeignKey('auth.User', null=True)
+    comments = models.TextField(default="")
+    created_date = models.DateTimeField(
+        default=timezone.now)
+    updated_date = models.DateTimeField(
+        blank=True, null=True)
+
+    slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.partID)
+        self.update_date = timezone.now()
+        super(Inventory, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.partID
+
+    def __iter__(self):
+        for field_name in self._meta.get_all_field_names():
+            value = getattr(self, field_name, None)
+            yield (field_name, value)
+
+
+class Rate(models.Model):
+    "Sub rate menu"
+    name = models.CharField(max_length=200)
+    author = models.ForeignKey('auth.User', null=True, default="")
+    inventory = models.ForeignKey(Inventory, null=True)
+    amount = models.CharField(max_length=200)
+
+    created_date = models.DateTimeField(
+        default=timezone.now)
+    updated_date = models.DateTimeField(
+        blank=True, null=True)
+
+    slug = AutoSlugField(populate_from='name')
+    #slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+#        self.slug = slugify(self.name)
+        self.update_date = timezone.now()
+        super(Rate, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+    def __iter__(self):
+        for field_name in self._meta.get_all_field_names():
+            value = getattr(self, field_name, None)
+            yield (field_name, value)
+
+class Specification(models.Model):
+    "Sub item menu"
+    name = models.CharField(max_length=200)
+    author = models.ForeignKey('auth.User', null=True, default="")
+    inventory = models.ForeignKey(Inventory, null=True)
+
+    created_date = models.DateTimeField(
+        default=timezone.now)
+    updated_date = models.DateTimeField(
+        blank=True, null=True)
+
+    slug = AutoSlugField(populate_from='name')
+    #slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+#        self.slug = slugify(self.name)
+        self.update_date = timezone.now()
+        super(Specification, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+    def __iter__(self):
+        for field_name in self._meta.get_all_field_names():
+            value = getattr(self, field_name, None)
+            yield (field_name, value)
+
+
 
 class Customer(models.Model):
     "Model class"
@@ -40,6 +173,13 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.CompanyName
+
+    def __iter__(self):
+        for field_name in self._meta.get_all_field_names():
+            value = getattr(self, field_name, None)
+            yield (field_name, value)
+
+
 
 
 class Comment(models.Model):
@@ -147,34 +287,6 @@ class Address(models.Model):
 
     def __str__(self):
         return self.street
-
-class TypeInventory(models.Model):
-    "Inventory type not yet used"
-    author = models.ForeignKey('auth.User', null=True)
-
-
-class Inventory(models.Model):
-    "Inventory main class"
-#    u_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200, default="")
-    description = models.CharField(max_length=200, default="")
-    partID = models.CharField(max_length=10, unique=True)
-    author = models.ForeignKey('auth.User', null=True)
-    comments = models.TextField(default="")
-    created_date = models.DateTimeField(
-        default=timezone.now)
-    updated_date = models.DateTimeField(
-        blank=True, null=True)
-
-    slug = models.SlugField(unique=True)
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.partID)
-        self.update_date = timezone.now()
-        super(Inventory, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return self.partID
 
 
 #    def save(self):
