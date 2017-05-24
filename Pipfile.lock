@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "18af6b0960deeb3e40ff14289e1538da3ca55f43ebf87a00a0db428fb5650f27"
+            "sha256": "e01cca06b928846848b433eb62a93a1c092feebbcb3ded6a55044b3c48f44117"
         },
         "requires": {},
         "sources": [
@@ -56,6 +56,9 @@
         },
         "django-allauth": {
             "version": "==0.27.0"
+        },
+        "django-autoslug": {
+            "version": "==1.9.3"
         },
         "django-bootstrap": {
             "version": "==0.2.4"
