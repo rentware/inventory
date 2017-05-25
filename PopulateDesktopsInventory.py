@@ -12,18 +12,18 @@ import json
 # from rentWareApp.models import Webscrape
 #from django.contrib.postgres.fields import JSONField
 
-from rentWareApp.models import Webscrape, Inventory, Category, Specification, Rate
+from rentWareApp.models import Inventory, Category, Specification, Rate
 #from django.contrib.auth.models import User
 
 import itertools
 
-a = Webscrape.objects.get(name='DesktopMain')
+#a = Webscrape.objects.get(name='DesktopMain')
 
 #print(a.data.keys())
 
-for akey in a.data.values():
-    for dd in akey[0]:
-        pass
+#for akey in a.data.values():
+#    for dd in akey[0]:
+#        pass
 #        print("break")
 #        print(dd)
 
