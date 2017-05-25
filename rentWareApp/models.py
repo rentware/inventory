@@ -125,6 +125,7 @@ class Rate(models.Model):
 
 class Specification(models.Model):
     "Sub item menu"
+    partID = models.CharField(max_length=10, default="")
     name = models.CharField(max_length=200)
     author = models.ForeignKey('auth.User', null=True, default="")
     inventory = models.ForeignKey(Inventory, null=True)
