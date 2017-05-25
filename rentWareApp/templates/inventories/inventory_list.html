@@ -46,7 +46,7 @@
               <td style="width:10%">{{ g.category.name }}</td>
               <td style="width:10%">{{ g.name }}</td>
               <td style="width:10%"><a href="{% url 'rate_list' g.slug %}">Rate</a></td>
-              <td style="width:10%"><a href="{% url 'specification_list' g.slug %}">Rate</a></td>
+              <td style="width:10%"><a href="{% url 'specification_list' g.slug %}">Spec</a></td>
               <td style="width:1%"><a href="{% url 'inventory_update' g.slug %}"><span class="glyphicon glyphicon-picture"></span></a></td>
             </tr>
 {% endfor %}
